@@ -1,0 +1,9 @@
+storebackend_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: StoreBackendBundle:Default:index }
+
+store_backend_index:
+  path: /dashboard #uri de la route
+  defaults: { _controller: StoreBackendBundle:Main:index }
+
+  #permet de commander les actions du controller et de la vue
