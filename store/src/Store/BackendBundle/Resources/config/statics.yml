@@ -1,0 +1,17 @@
+#page statics contact
+store_backend_statics_contact:
+  path: /contact #chemin vers l'uri
+  defaults: { _controller: StoreBackendBundle:Statics:contact }
+  #NomduBundle:NomduControlleur:Nomdel'Action
+
+store_backend_statics_about:
+  path: /about #chemin vers l'uri
+  defaults: { _controller: StoreBackendBundle:Statics:about }
+
+store_backend_statics_terms:
+  path: /terms #chemin vers l'uri
+  defaults: { _controller: StoreBackendBundle:Statics:terms }
+
+store_backend_statics_concept:
+   path: /concept #chemin vers l'uri
+   defaults: { _controller: StoreBackendBundle:Statics:concept }

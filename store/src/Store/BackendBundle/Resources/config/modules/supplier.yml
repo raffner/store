@@ -1,0 +1,13 @@
+#Page list of suppliers
+store_backend_supplier_list:
+    path: /list
+    defaults: { _controller: StoreBackendBundle:Supplier:list }
+
+#Page view a product
+store_backend_cms_view:
+    path:     /view/{id}/{name}
+    defaults: { _controller: StoreBackendBundle:Supplier:view }
+    requirements:
+      id: \d+
+      name: "[a-z]{5,30}"
+      _method: GET
