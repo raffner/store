@@ -1,2 +1,12 @@
-<h1>page produit :{{ id }}</h1>
-<p>nom du produit : {{ name }}</p>
+{% extends "StoreBackendBundle::layout.html.twig" %}
+
+{% block titlepage %}
+    Fiche produit
+{% endblock %}
+
+{% block content %}
+
+    <h1>page produit :{{ id }}</h1>
+    <p>nom du produit : {{ name }}</p>
+
+{% endblock %}
