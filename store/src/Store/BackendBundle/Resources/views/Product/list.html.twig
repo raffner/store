@@ -7,5 +7,49 @@
 {% block content %}
 
     <h1>liste des produits</h1>
+{# boucle sur mes produits : requete sur la clé qui donne un tableau
+#}
+{% for product in products %}
+
+
+        <h2>{{ product.title }}</h2> <i>{{ product.dateCreated|date('d/m/Y') }}</i>
+            {% if product.active == 0 %}
+                <i class="fa fa-times"></i>
+            {% else %}
+                <i class="fa fa-check"></i>
+            {% endif %}
+         <p>{{ product.ref }}</p>
+    {# affiche la liste des produits - ref, title ne renvoient pas aux champs
+     de la table mais sont les attributs #}
+        <p>Descriptif : {{ product.description }}</p>
+        <p>Prix : {{ product.price }}</p>
+        <p>Quantité : {{ product.quantity }}</p>
+        <p>Taxe : {{ product.taxe }}</p>
+        <p>Composition : {{ product.composition }}</p>
+
+        <p>Boutique : Nom de la boutique de mon produit{{ product.jeweler.title }}</p>
+        <p>Description : Description de la boutique du bijoutier{{ product.jeweler.description }}</p>
+
+
+    <img src="{{ product.jeweler.image }}" alt="">
+    {# On avait créé une liaison Many (product) to one (jeweler) : on peut donc traverser les objets en
+    écrivant classe "product" puis classe"jeweler" avec l'attribut  'title' du jeweler
+#}
+   <ul>
+    {% for business in product.business %}
+       <li>Tarif :  {{ business.amount }} euros HT</li>
+        <li>Message :  {{ business.message }} euros HT</li>
+
+       </li>
+    {% endfor %}
+   </ul>
+    <ul style="color:red">
+    {% for category in product.category %}
+        <li>Catégorie {{ category.title }}
+        {% endfor %}
+    </ul>
+{% else  %} {# si aucun produit #}
+    <div class = "alert alert-dark"></div>
+{% endfor %}
 
 {% endblock %}

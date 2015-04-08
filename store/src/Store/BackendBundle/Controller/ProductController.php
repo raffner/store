@@ -15,8 +15,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class ProductController extends Controller {
 
     public function listAction(){
+        //récupère le manager de doctrine : le conteneur d'objets
 
-            return $this->render('StoreBackendBundle:Product:list.html.twig');
+        $em = $this->getDoctrine()->getManager();
+
+        //je récupère tous les produits de ma badse de donnée avec la méthode FindAll()
+
+        $products = $em->getRepository ('StoreBackendBundle:Product')->findAll();
+        //nom du bundle, nom de l'entité
+
+
+        return $this->render('StoreBackendBundle:Product:list.html.twig', array('products'=>$products
+        ));
     }
 
     /**
