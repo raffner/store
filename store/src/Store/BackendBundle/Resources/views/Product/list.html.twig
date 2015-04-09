@@ -12,7 +12,7 @@
 {% for product in products %}
 
 
-        <h2>{{ product.title }}</h2> <i>{{ product.dateCreated|date('d/m/Y') }}</i>
+        <h2><a href="{{ path('store_backend_product_view',{'name': product.title, 'id' : product.id} ) }}">{{ product.title }}</h2> <i>{{ product.dateCreated|date('d/m/Y') }}</i>
             {% if product.active == 0 %}
                 <i class="fa fa-times"></i>
             {% else %}
@@ -20,7 +20,8 @@
             {% endif %}
          <p>{{ product.ref }}</p>
     {# affiche la liste des produits - ref, title ne renvoient pas aux champs
-     de la table mais sont les attributs #}
+     de la table mais sont les attributs des produits #}
+        <a href="{{ path('store_backend_product_remove',{'id' : product.id} ) }}">DELETE THIS PRODUCT</a>
         <p>Descriptif : {{ product.description }}</p>
         <p>Prix : {{ product.price }}</p>
         <p>Quantité : {{ product.quantity }}</p>

@@ -9,6 +9,11 @@ store_backend_category_view:
     #id = argument nommé avec accolades : {id]
     defaults: { _controller: StoreBackendBundle:Category:view }
     requirements:
-        id: \d+
-        name: "[a-z]{5,30}"
-        _method: GET
+           id: \d+
+           name: .+
+           _method: GET
+
+
+store_backend_category_remove:
+     path: /remove{id}
+     defaults: { _controler: StoreBackendBundle:Category: remove }

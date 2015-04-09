@@ -15,8 +15,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class CMSController extends Controller {
 
     public function listAction(){
+        //récupère le manager de doctrine : le conteneur d'objets
 
-            return $this->render('StoreBackendBundle:CMS:list.html.twig');
+        $em = $this->getDoctrine()->getManager();
+
+        //je récupère tous les produits de ma badse de donnée avec la méthode FindAll()
+
+        $CMS = $em->getRepository ('StoreBackendBundle:Product')->findAll();
+        //nom du bundle, nom de l'entité
+            return $this->render('StoreBackendBundle:CMS:list.html.twig', array('CMSS'=>$CMS));
     }
 
     /**
@@ -25,13 +32,37 @@ class CMSController extends Controller {
      */
     #la page renvoie la vue du CMS
     public function viewAction($id, $name){
-        #j'envoie à la vue mon id avec array. le nom de la clé est le nom de la variable disponible en vue
+        // récupère le manager de la doctrine
+        $em = $this->getDoctrine()->getManager();
+
+        //récupèrte le produit de ma base de données
+        $CMS = $em->getRepository('StoreBackendBundle:CMS')->find($id);
+
+        //j'envoie à la vue mon id avec array. le nom de la clé est le nom de la variable disponible en vue
         return $this->render('StoreBackendBundle:CMS:view.html.twig',
-            array( 'id' => $id,
-                   'name' => $name
+            array(
+                   'CMS' => $CMS
             )
         );
     }
+    public function removeAction($id){
+        // récupère le manager de la doctrine
+        $em = $this->getDoctrine()->getManager();
+
+        //récupèrte le produit de ma base de données
+        $CMS = $em->getRepository('StoreBackendBundle:CMS')->find($id);
+
+        $em->remove($CMS);
+        $em->flush;
+
+        $this->redirectToRoute('store_backend_CMS_list');
+
+
+    }
+
 
 }
+
+
+
 

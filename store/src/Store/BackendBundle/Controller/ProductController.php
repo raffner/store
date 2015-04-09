@@ -15,16 +15,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class ProductController extends Controller {
 
     public function listAction(){
-        //récupère le manager de doctrine : le conteneur d'objets
+        //récupère le manager de doctrine : le conteneur d'objets qui permet def aire des requetes côté objet
 
         $em = $this->getDoctrine()->getManager();
 
-        //je récupère tous les produits de ma badse de donnée avec la méthode FindAll()
+        //je récupère tous les produits de ma base de donnée avec la méthode FindAll()
 
         $products = $em->getRepository ('StoreBackendBundle:Product')->findAll();
-        //nom du bundle, nom de l'entité
 
-
+        //nom du bundle, nom de l'entité : envoi en vue
         return $this->render('StoreBackendBundle:Product:list.html.twig', array('products'=>$products
         ));
     }
@@ -33,15 +32,40 @@ class ProductController extends Controller {
      * @param $id
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    #la page renvoie la vue d'un produit
+   //la page renvoie la vue d'un produit
     public function viewAction($id, $name){
-        #j'envoie à la vue mon id avec array. le nom de la clé est le nom de la variable disponible en vue
+        // récupère le manager de la doctrine
+        $em = $this->getDoctrine()->getManager();
+
+        //récupèrte le produit de ma base de données
+        $product = $em->getRepository('StoreBackendBundle:Product')->find($id);
+
+        //j'envoie à la vue mon id avec array. le nom de la clé est le nom de la variable disponible en vue
         return $this->render('StoreBackendBundle:Product:view.html.twig',
-            array( 'id' => $id,
-                   'name' => $name
+            array(
+                   'product' => $product
+
             )
         );
     }
 
+    /**
+     * Action de suppression
+     * @param $id
+     */
+    public function removeAction($id){
+        // récupère le manager de la doctrine
+        $em = $this->getDoctrine()->getManager();
+
+        //récupèrte le produit de ma base de données
+        $product = $em->getRepository('StoreBackendBundle:Product')->find($id);
+
+        $em->remove($product);
+        $em->flush;
+
+        $this->redirectToRoute('store_backend_product_list');
+
+
+    }
 }
 

@@ -9,8 +9,13 @@ store_backend_product_view:
     defaults: { _controller: StoreBackendBundle:Product:view }
     requirements:
       id: \d+
-      name: "[a-z]{5,30}"
+      name: .+
       _method: GET
+#page list of product
+store_backend_product_remove:
+     path: /remove{id}
+     defaults: { _controler: StoreBackendBundle:Product: remove }
+
 
 
 

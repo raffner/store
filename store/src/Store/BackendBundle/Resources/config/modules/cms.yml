@@ -13,4 +13,6 @@ store_backend_cms_view:
       _method: GET
 
 
-
+store_backend_product_remove:
+     path: /remove{id}
+     defaults: { _controler: StoreBackendBundle:CMS: remove }

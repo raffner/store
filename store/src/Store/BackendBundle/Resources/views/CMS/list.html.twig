@@ -1,12 +1,74 @@
 {% extends "StoreBackendBundle::layout.html.twig" %}
 
 {% block titlepage %}
-    Liste des CMS
+    CMS
 {% endblock %}
-
 {% block content %}
+    <div class="table-primary">
+        <div class="table-header">
+            <div class="table-caption">
+                CMS
+            </div>
+        </div>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Description</th>
+                <th>Bijoutier</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
 
-    <h1>liste des CMS</h1>
+            <tbody>
+            {% for CMS in CMSS %}
+
+
+
+                {# affiche la liste des catégories - ref, title ne renvoient pas aux champs
+                 de la table mais sont les attributs des categories #}
+                <tr>
+
+                    <td>
+                        {% for product in CMS.product %}
+                            <a href="{{ path('store_backend_CMS_view',{'name': CMS.title, 'id' : CMS.id } ) }}">{{ CMS.title }}</a>
+                        {% endfor %}
+                    </td>
+
+
+                    <td><a href="">{{ CMS.description }}</a></td>
+
+
+
+
+                    <td>
+                        {% for jeweller in CMS.jeweler %}
+                            <a href=" ">{{ jeweler.title }}</a>
+                        {% endfor %}
+                    </td>
+
+                    <td>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Actions <i class="fa fa-caret-down"></i></button>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ path('store_backend_CMS_view',{'name': CMS.title, 'id' : CMS.id } ) }}">Voir </a></li>
+                                <li><a href=" ">Editer</a></li>
+                                <li><a href="{{ path('store_backend_CMS_remove',{'id' : CMS.id} ) }}">Supprimer</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
 
 {% endblock %}
+
+
+
+
+
 
