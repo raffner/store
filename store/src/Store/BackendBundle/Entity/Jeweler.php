@@ -722,4 +722,12 @@ class Jeweler
     {
         return $this->dateCreated;
     }
+
+    /**
+     * Converti un objet en chaîne de caractère : on peut ainsi se dispenser dans la vue de l'attribut title
+     * @return string
+     */
+    public function __toString(){
+        return $this->title;
+    }
 }

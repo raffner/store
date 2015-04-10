@@ -21,9 +21,12 @@ class CMSController extends Controller {
 
         //je récupère tous les produits de ma badse de donnée avec la méthode FindAll()
 
-        $CMS = $em->getRepository ('StoreBackendBundle:Product')->findAll();
+        $pages = $em->getRepository ('StoreBackendBundle:Cms')->findAll();
         //nom du bundle, nom de l'entité
-            return $this->render('StoreBackendBundle:CMS:list.html.twig', array('CMSS'=>$CMS));
+            return $this->render('StoreBackendBundle:CMS:list.html.twig',
+                array(
+                    'pages'=> $pages
+                ));
     }
 
     /**
@@ -31,12 +34,12 @@ class CMSController extends Controller {
      * @return \Symfony\Component\HttpFoundation\Response
      */
     #la page renvoie la vue du CMS
-    public function viewAction($id, $name){
+    public function viewAction($id){
         // récupère le manager de la doctrine
         $em = $this->getDoctrine()->getManager();
 
-        //récupèrte le produit de ma base de données
-        $CMS = $em->getRepository('StoreBackendBundle:CMS')->find($id);
+        //récupèrte le produit de ma base de données : nom du bundle : nom de l'entité
+        $CMS = $em->getRepository('StoreBackendBundle:Cms')->find($id);
 
         //j'envoie à la vue mon id avec array. le nom de la clé est le nom de la variable disponible en vue
         return $this->render('StoreBackendBundle:CMS:view.html.twig',
@@ -50,12 +53,12 @@ class CMSController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
         //récupèrte le produit de ma base de données
-        $CMS = $em->getRepository('StoreBackendBundle:CMS')->find($id);
+        $CMS = $em->getRepository('StoreBackendBundle:Cms')->find($id);
 
         $em->remove($CMS);
         $em->flush;
 
-        $this->redirectToRoute('store_backend_CMS_list');
+        $this->redirectToRoute('store_backend_cms_list');
 
 
     }

@@ -6,7 +6,14 @@
 
 {% block content %}
 
-    <h1>Voir un CMS : {{ id }}</h1>
-    <p>Nom du CMS : {{ name }}</p>
+    <p>Nom du CMS : {{ CMS.title }}</p>
+    <p>Vue : {{ CMS.description }}</p>
+    <p>Etat : {{ CMS.state }}</p>
+    <p>Produit : {{ CMS.product[0].title}}</p>
+    <p>Bijoutier : {{ CMS.jeweler.title }}</p>
+
 
 {% endblock %}
+
+
+

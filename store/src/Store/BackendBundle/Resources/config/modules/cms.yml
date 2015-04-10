@@ -5,14 +5,13 @@ store_backend_cms_list:
 
 #Page view a product
 store_backend_cms_view:
-    path:     /view/{id}/{name}
+    path: /view/{id}
     defaults: { _controller: StoreBackendBundle:CMS:view }
     requirements:
       id: \d+
-      name: "[a-z]{5,30}"
       _method: GET
 
 
-store_backend_product_remove:
-     path: /remove{id}
-     defaults: { _controler: StoreBackendBundle:CMS: remove }
+store_backend_cms_remove:
+     path: /remove/{id}
+     defaults: { _controller: StoreBackendBundle:CMS: remove }

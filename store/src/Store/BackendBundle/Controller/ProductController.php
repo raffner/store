@@ -19,9 +19,9 @@ class ProductController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
 
-        //je récupère tous les produits de ma base de donnée avec la méthode FindAll()
+        //je récupère tous les produits de jeweller numéro 1
 
-        $products = $em->getRepository ('StoreBackendBundle:Product')->findAll();
+        $products = $em->getRepository('StoreBackendBundle:Product')->getProductsByUser(1);
 
         //nom du bundle, nom de l'entité : envoi en vue
         return $this->render('StoreBackendBundle:Product:list.html.twig', array('products'=>$products
@@ -37,7 +37,7 @@ class ProductController extends Controller {
         // récupère le manager de la doctrine
         $em = $this->getDoctrine()->getManager();
 
-        //récupèrte le produit de ma base de données
+        //récupète le produit de ma base de données
         $product = $em->getRepository('StoreBackendBundle:Product')->find($id);
 
         //j'envoie à la vue mon id avec array. le nom de la clé est le nom de la variable disponible en vue
@@ -61,9 +61,9 @@ class ProductController extends Controller {
         $product = $em->getRepository('StoreBackendBundle:Product')->find($id);
 
         $em->remove($product);
-        $em->flush;
+        $em->flush();
 
-        $this->redirectToRoute('store_backend_product_list');
+        return $this->redirectToRoute('store_backend_product_list');
 
 
     }

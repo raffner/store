@@ -4,7 +4,7 @@ store_backend_supplier_list:
     defaults: { _controller: StoreBackendBundle:Supplier:list }
 
 #Page view a product
-store_backend_cms_view:
+store_backend_supplier_view:
     path:     /view/{id}/{name}
     defaults: { _controller: StoreBackendBundle:Supplier:view }
     requirements:

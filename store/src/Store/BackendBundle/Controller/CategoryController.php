@@ -21,7 +21,7 @@ class CategoryController extends Controller {
 
         //je récupère tous les produits de ma badse de donnée avec la méthode FindAll()
 
-        $categories = $em->getRepository ('StoreBackendBundle:Category')->findAll();
+        $categories = $em->getRepository ('StoreBackendBundle:Category')->getCategoriesByUser(1);
         //nom du bundle, nom de l'entité
         return $this->render('StoreBackendBundle:Category:list.html.twig', array('categories'=>$categories
         ));

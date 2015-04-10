@@ -15,5 +15,5 @@ store_backend_category_view:
 
 
 store_backend_category_remove:
-     path: /remove{id}
+     path: /remove/{id}
      defaults: { _controler: StoreBackendBundle:Category: remove }

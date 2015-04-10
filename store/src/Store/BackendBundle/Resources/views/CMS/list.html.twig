@@ -14,51 +14,50 @@
             <thead>
             <tr>
                 <th>Nom</th>
-                <th>Description</th>
+                <th>vue</th>
+                <th>Etat</th>
+                <th>produit</th>
                 <th>Bijoutier</th>
                 <th>Actions</th>
             </tr>
             </thead>
 
             <tbody>
-            {% for CMS in CMSS %}
+            {% for page in pages %}
+                 <tr>
 
 
 
-                {# affiche la liste des catégories - ref, title ne renvoient pas aux champs
-                 de la table mais sont les attributs des categories #}
-                <tr>
+               <td><a href="{{ path('store_backend_cms_view',{'id' : page.id }) }}">{{ page.title }}</a></td>
+               <td><a href="">{{ page.description }}</a></td>
+               <td><a href="">{{ page.state }}</a></td>
+                     <td>
+                         {% for product in page.product %}
+                             <a href=" ">{{ product.title }}</a>
+                         {% endfor %}
+                     </td>
+                     <td>
+                         {% for jeweler in page.jeweler %}
+                             <a href=" ">{{ jeweler.title }}</a>
+                         {% endfor %}
+                     </td>
 
-                    <td>
-                        {% for product in CMS.product %}
-                            <a href="{{ path('store_backend_CMS_view',{'name': CMS.title, 'id' : CMS.id } ) }}">{{ CMS.title }}</a>
-                        {% endfor %}
-                    </td>
+                     <td>
+                         <div class="btn-group">
+                             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Actions <i class="fa fa-caret-down"></i></button>
+                             <ul class="dropdown-menu">
+                                 <li><a href="{{ path('store_backend_cms_view',{'id' : page.id } ) }}">Voir </a></li>
+                                 <li><a href=" ">Editer</a></li>
+                                 <li><a href="{{ path('store_backend_cms_remove',{'id' : page.id} ) }}">Supprimer</a></li>
+                             </ul>
+                         </div>
+                     </td>
 
 
-                    <td><a href="">{{ CMS.description }}</a></td>
 
-
-
-
-                    <td>
-                        {% for jeweller in CMS.jeweler %}
-                            <a href=" ">{{ jeweler.title }}</a>
-                        {% endfor %}
-                    </td>
-
-                    <td>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Actions <i class="fa fa-caret-down"></i></button>
-                            <ul class="dropdown-menu">
-                                <li><a href="{{ path('store_backend_CMS_view',{'name': CMS.title, 'id' : CMS.id } ) }}">Voir </a></li>
-                                <li><a href=" ">Editer</a></li>
-                                <li><a href="{{ path('store_backend_CMS_remove',{'id' : CMS.id} ) }}">Supprimer</a></li>
-                            </ul>
-                        </div>
-                    </td>
                 </tr>
             {% endfor %}
+
             </tbody>
         </table>
 
