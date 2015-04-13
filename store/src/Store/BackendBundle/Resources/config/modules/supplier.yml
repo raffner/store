@@ -9,5 +9,9 @@ store_backend_supplier_view:
     defaults: { _controller: StoreBackendBundle:Supplier:view }
     requirements:
       id: \d+
-      name: "[a-z]{5,30}"
+      name: .+
       _method: GET
+
+store_backend_supplier_remove:
+     path: /remove/{id}
+     defaults: { _controller: StoreBackendBundle:Supplier: remove }

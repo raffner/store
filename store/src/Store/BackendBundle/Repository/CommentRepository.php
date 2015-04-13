@@ -4,20 +4,18 @@ namespace Store\BackendBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
-/**
- * Created by PhpStorm.
- * User: wac23
- * Date: 10/04/15
- * Time: 16:28
- */
 
-class CategoryRepository extends EntityRepository{
+class CommentRepository extends EntityRepository{
 
-    public function getCategoriesByUser($user = null){
+    /**
+     * @param null $user
+     * @return array
+     */
+    public function getCommentsByUser($user = null){
         $query = $this->getEntityManager()
             ->createQuery(
                 "SELECT p
-                      FROM StoreBackendBundle:Category p
+                      FROM StoreBackendBundle:Comment p
                       WHERE p.jeweler = :user"
             )
             ->setParameter("user", $user);
@@ -26,18 +24,23 @@ class CategoryRepository extends EntityRepository{
 
 
     }
-
     public function getCountByUser($user = null){
-        //Compte le nombre de catégories pour un bijoutier
+
+        //Compte le nombre de produits pour un bijoutier
+        //La jointure se fait sur l'attribut de l'entité (ici product) et non pas l'entité
         $query = $this->getEntityManager()
             ->createQuery(
-                "SELECT COUNT(c) AS nb
-                 FROM StoreBackendBundle:Category c
-                 WHERE c.jeweler = :user"
+                "SELECT COUNT(com) AS nb
+                 FROM StoreBackendBundle:Comment com
+                 JOIN com.product AS p
+                 WHERE p.jeweler = :user"
             )
             ->setParameter('user', $user);
 
 
         return $query->getOneOrNullResult();
     }
+
+
+
 }

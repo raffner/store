@@ -11,13 +11,13 @@ use Doctrine\ORM\EntityRepository;
  * Time: 16:28
  */
 
-class CategoryRepository extends EntityRepository{
+class CmsRepository extends EntityRepository{
 
-    public function getCategoriesByUser($user = null){
+    public function getCMSByUser($user = null){
         $query = $this->getEntityManager()
             ->createQuery(
                 "SELECT p
-                      FROM StoreBackendBundle:Category p
+                      FROM StoreBackendBundle:CMS p
                       WHERE p.jeweler = :user"
             )
             ->setParameter("user", $user);
@@ -28,16 +28,18 @@ class CategoryRepository extends EntityRepository{
     }
 
     public function getCountByUser($user = null){
-        //Compte le nombre de catégories pour un bijoutier
+
+        //Compte le nombre de produits pour un bijoutier
         $query = $this->getEntityManager()
             ->createQuery(
-                "SELECT COUNT(c) AS nb
-                 FROM StoreBackendBundle:Category c
-                 WHERE c.jeweler = :user"
+                "SELECT COUNT(cm) AS nb
+                 FROM StoreBackendBundle:CMS cm
+                 WHERE cm.jeweler = :user"
             )
             ->setParameter('user', $user);
 
 
         return $query->getOneOrNullResult();
     }
+
 }

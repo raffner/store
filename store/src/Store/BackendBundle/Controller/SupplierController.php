@@ -15,8 +15,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class SupplierController extends Controller {
 
     public function listAction(){
+        //récupère le manager de doctrine : le conteneur d'objets
 
-        return $this->render('StoreBackendBundle:Supplier:list.html.twig');
+        $em = $this->getDoctrine()->getManager();
+
+        //je récupère tous les produits de ma badse de donnée avec la méthode FindAll()
+
+        $suppliers = $em->getRepository ('StoreBackendBundle:Supplier')->getCommentsByUser(1);
+        //nom du bundle, nom de l'entité
+        return $this->render('StoreBackendBundle:Supplier:list.html.twig',
+            array(
+                'suppliers'=>$suppliers
+        ));
     }
 
     /**
@@ -31,6 +41,20 @@ class SupplierController extends Controller {
                 'name' => $name
             )
         );
+    }
+    public function removeAction($id){
+        // récupère le manager de la doctrine
+        $em = $this->getDoctrine()->getManager();
+
+        //récupèrte le supplier de ma base de données
+        $supplier = $em->getRepository('StoreBackendBundle:Supplier')->find($id);
+
+        $em->remove($supplier);
+        $em->flush();
+
+        return $this->redirectToRoute('store_backend_supplier_list');
+
+
     }
 
 }

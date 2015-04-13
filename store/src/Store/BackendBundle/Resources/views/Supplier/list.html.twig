@@ -1,4 +1,68 @@
-{%  extends "StoreBackendBundle::layout.html.twig"%}
+{% extends "StoreBackendBundle::layout.html.twig" %}
+
+{% block titlepage %}
+    Fournisseurs
+{% endblock %}
 {% block content %}
-    <h1>liste des fournisseurs</h1>
+    <div class="table-primary">
+        <div class="table-header">
+            <div class="table-caption">
+                Fournisseurs
+            </div>
+        </div>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Description</th>
+                <th>Produit</th>
+                <th>Image</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for supplier in suppliers %}
+
+
+
+                {# affiche la liste des fournisseurs - ref, title ne renvoient pas aux champs
+                 de la table mais sont les attributs des categories #}
+                <tr>
+                    <td><a href="">{{ supplier.name }}</a></td>
+
+                    <td><a href="">{{ supplier.description }}</a></td>
+
+                    <td>
+                        {% for product in supplier.product %}
+                            <a href="{{ path('store_backend_supplier_view',{'name': supplier.name, 'id' : supplier.id } ) }}">{{supplier.name }}</a>
+                        {% endfor %}
+                    </td>
+
+                    <td><a href=""><img src="{{ supplier.image }}" alt=""></a></td>
+
+
+
+
+
+
+
+
+                    <td>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Actions <i class="fa fa-caret-down"></i></button>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ path('store_backend_supplier_view',{'name': supplier.name, 'id' : supplier.id } ) }}">Voir </a></li>
+                                <li><a href=" ">Editer</a></li>
+                                <li><a href="{{ path('store_backend_supplier_remove',{'id' : supplier.id} ) }}">Supprimer</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+
 {% endblock %}

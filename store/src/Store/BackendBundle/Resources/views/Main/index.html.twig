@@ -6,6 +6,96 @@
 
 {% block content %}
 
-    <h1>Boutique</h1>
+
+
+
+
+
+
+<div class="stat-panel">
+    <div class="stat-row">
+        <!-- Small horizontal padding, bordered, without right border, top aligned text -->
+        <div class="stat-cell col-lg-6 padding-sm-hr bordered no-border-r valign-top">
+            <!-- Small padding, without top padding, extra small horizontal padding -->
+            <h4 class="padding-sm no-padding-t padding-xs-hr"><i class="fa fa-cloud-upload text-primary"></i>&nbsp;&nbsp;STATS</h4>
+            <!-- Without margin -->
+            <ul class="list-group no-margin">
+                <!-- Without left and right borders, extra small horizontal padding, without background, no border radius -->
+                <li class="list-group-item no-border-hr padding-xs-hr no-bg no-border-radius">
+                    Bijoux<span class="label label-pa-purple pull-right"> {{ nbprod.nb|default('0') }} créés</span>
+                </li> <!-- / .list-group-item -->
+                <!-- Without left and right borders, extra small horizontal padding, without background -->
+                <li class="list-group-item no-border-hr padding-xs-hr no-bg">
+                    Catégories<span class="label label-danger pull-right"> {{ nbcat.nb|default('0') }} créées</span>
+                </li> <!-- / .list-group-item -->
+                <!-- Without left and right borders, without bottom border, extra small horizontal padding, without background -->
+                <li class="list-group-item no-border-hr no-border-b padding-xs-hr no-bg">
+                    CMS<span class="label label-success pull-right">{{ nbcms.nb|default('0') }} créés</span>
+                </li> <!-- / .list-group-item -->
+                <li class="list-group-item no-border-hr no-border-b padding-xs-hr no-bg">
+                    Commentaires<span class="label label-success pull-right">{{ nbcom.nb|default('0') }} créés</span>
+                </li> <!-- / .list-group-item -->
+                <li class="list-group-item no-border-hr no-border-b padding-xs-hr no-bg">
+                    Fournisseurs<span class="label label-success pull-right">{{ nbsup.nb|default('0') }} créés</span>
+                </li> <!-- / .list-group-item -->
+                <li class="list-group-item no-border-hr no-border-b padding-xs-hr no-bg">
+                    Commandes<span class="label label-success pull-right">{{ nbord.nb|default('0') }} créés</span>
+                </li> <!-- / .list-group-item -->
+            </ul>
+        </div> <!-- /.stat-cell -->
+        <!-- Primary background, small padding, vertically centered text -->
+        <div class="stat-cell col-sm-6 bg-primary padding-sm valign-middle">
+            <div id="hero-graph" class="graph" style="height: 230px;"><svg height="230" version="1.1" width="422" xmlns="http://www.w3.org/2000/svg" style="overflow: hidden; position: relative;"><desc style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Created with Raphaël 2.1.2</desc><defs style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></defs><text x="25.875" y="191" text-anchor="end" font="10px &quot;Arial&quot;" stroke="none" fill="#ffffff" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-family: sans-serif;" font-size="12px" font-family="sans-serif" font-weight="normal"><tspan dy="4" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">0</tspan></text><path fill="none" stroke="#ffffff" d="M38.375,191H397" stroke-opacity="0.5" stroke-width="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><text x="25.875" y="149.5" text-anchor="end" font="10px &quot;Arial&quot;" stroke="none" fill="#ffffff" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-family: sans-serif;" font-size="12px" font-family="sans-serif" font-weight="normal"><tspan dy="4" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">5</tspan></text><path fill="none" stroke="#ffffff" d="M38.375,149.5H397" stroke-opacity="0.5" stroke-width="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><text x="25.875" y="108" text-anchor="end" font="10px &quot;Arial&quot;" stroke="none" fill="#ffffff" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-family: sans-serif;" font-size="12px" font-family="sans-serif" font-weight="normal"><tspan dy="4" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">10</tspan></text><path fill="none" stroke="#ffffff" d="M38.375,108H397" stroke-opacity="0.5" stroke-width="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><text x="25.875" y="66.49999999999999" text-anchor="end" font="10px &quot;Arial&quot;" stroke="none" fill="#ffffff" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-family: sans-serif;" font-size="12px" font-family="sans-serif" font-weight="normal"><tspan dy="3.999999999999986" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">15</tspan></text><path fill="none" stroke="#ffffff" d="M38.375,66.49999999999999H397" stroke-opacity="0.5" stroke-width="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><text x="25.875" y="25" text-anchor="end" font="10px &quot;Arial&quot;" stroke="none" fill="#ffffff" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-family: sans-serif;" font-size="12px" font-family="sans-serif" font-weight="normal"><tspan dy="4" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">20</tspan></text><path fill="none" stroke="#ffffff" d="M38.375,25H397" stroke-opacity="0.5" stroke-width="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><text x="397" y="203.5" text-anchor="middle" font="10px &quot;Arial&quot;" stroke="none" fill="#ffffff" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-family: sans-serif;" font-size="12px" font-family="sans-serif" font-weight="normal" transform="matrix(1,0,0,1,0,7)"><tspan dy="4" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Mar 16</tspan></text><text x="277.45833333333337" y="203.5" text-anchor="middle" font="10px &quot;Arial&quot;" stroke="none" fill="#ffffff" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-family: sans-serif;" font-size="12px" font-family="sans-serif" font-weight="normal" transform="matrix(1,0,0,1,0,7)"><tspan dy="4" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Mar 14</tspan></text><text x="157.91666666666669" y="203.5" text-anchor="middle" font="10px &quot;Arial&quot;" stroke="none" fill="#ffffff" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-family: sans-serif;" font-size="12px" font-family="sans-serif" font-weight="normal" transform="matrix(1,0,0,1,0,7)"><tspan dy="4" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Mar 12</tspan></text><text x="38.375" y="203.5" text-anchor="middle" font="10px &quot;Arial&quot;" stroke="none" fill="#ffffff" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; line-height: normal; font-family: sans-serif;" font-size="12px" font-family="sans-serif" font-weight="normal" transform="matrix(1,0,0,1,0,7)"><tspan dy="4" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Mar 10</tspan></text><path fill="none" stroke="#ffffff" d="M38.375,25C53.317708333333336,45.75,83.203125,102.8125,98.14583333333334,108C113.08854166666669,113.1875,142.97395833333334,68.57499999999999,157.91666666666669,66.49999999999999C172.859375,64.42499999999998,202.74479166666669,81.02499999999999,217.6875,91.39999999999999C232.63020833333334,101.775,262.515625,142.23749999999998,277.45833333333337,149.5C292.4010416666667,156.7625,322.28645833333337,165.0625,337.2291666666667,149.5C352.171875,133.9375,382.0572916666667,56.125,397,25" stroke-width="2" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><circle cx="38.375" cy="25" r="4" fill="#ffffff" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle><circle cx="98.14583333333334" cy="108" r="4" fill="#ffffff" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle><circle cx="157.91666666666669" cy="66.49999999999999" r="7" fill="#ffffff" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle><circle cx="217.6875" cy="91.39999999999999" r="4" fill="#ffffff" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle><circle cx="277.45833333333337" cy="149.5" r="4" fill="#ffffff" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle><circle cx="337.2291666666667" cy="149.5" r="4" fill="#ffffff" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle><circle cx="397" cy="25" r="4" fill="#ffffff" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle></svg><div class="morris-hover morris-default-style" style="left: 118.916666666667px; top: 8px;"><div class="morris-hover-row-label">2014-03-12</div><div class="morris-hover-point" style="color: #fff">
+                        Value:
+                        15
+                    </div></div></div>
+
+        </div>
+    </div>
+</div>
+    <div class="col-lg-6">
+        <div class="stat-panel">
+            <!-- Danger background, vertically centered text -->
+            <div class="stat-cell bg-danger valign-middle">
+                <!-- Stat panel bg icon -->
+                <i class="fa fa-trophy bg-icon"></i>
+                <!-- Extra large text -->
+                <span class="text-xlg"><span class="text-lg text-slim">$</span><strong>{{ nbsum.total | number_format(2, '.', ',')}} </strong></span><br>
+                <!-- Big text -->
+                <span class="text-bg">Chiffre d'affaires du jour</span><br>
+                <!-- Small text -->
+                <span class="text-sm"><a href="#">Voir détail</a></span>
+            </div> <!-- /.stat-cell -->
+        </div> <!-- /.stat-panel -->
+    </div>
+
+
+    <div class="col-md-6">
+        <div class="panel panel-success widget-support-tickets" id="dashboard-support-tickets">
+            <div class="panel-heading">
+                <span class="panel-title"><i class="panel-title-icon fa fa-bullhorn"></i>Les 5 dernières commandes</span>
+                <div class="panel-heading-controls">
+                    <div class="panel-heading-text"><a href="#"></a></div>
+                </div>
+            </div> <!-- / .panel-heading -->
+            <div class="panel-body tab-content-padding">
+                <!-- Panel padding, without vertical padding -->
+                <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 300px;"><div class="panel-padding no-padding-vr" style="overflow: hidden; width: auto; height: 300px;">
+                   {{ %for order in nblast  }}
+                        <div class="ticket">
+                            <span class="label label-success ticket-label">Completed</span>
+                            <a href="#" title="" class="ticket-title">Server unavaible<span>[#{{ order.id }}]</span></a>
+								<span class="ticket-info">
+									Opened by <a href="#" title="">Timothy Owens</a> today
+								</span>
+                        </div> <!-- / .ticket -->
+
+
+                    </div>
+                </div>
+            </div> <!-- / .panel-body -->
+        </div> <!-- / .panel -->
+    </div>
+
 
 {% endblock %}

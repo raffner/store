@@ -6,7 +6,11 @@
 
 {% block content %}
 
-    <h1>page fournisseur :{{ id }}</h1>
-    <p>nom du fournisseur : {{ name }}</p>
+    <p>Nom du fournisseur : {{ supplier.name }}</p>
+    <p>Description : {{ supplier.description }}</p>
+    <p>Produit : {{ supplier.product.title }}</p>
+    <p>Image du produit : {{ supplier.image }}</p>
+
+
 
 {% endblock %}

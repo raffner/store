@@ -21,7 +21,7 @@ class CMSController extends Controller {
 
         //je récupère tous les produits de ma badse de donnée avec la méthode FindAll()
 
-        $pages = $em->getRepository ('StoreBackendBundle:Cms')->findAll();
+        $pages = $em->getRepository ('StoreBackendBundle:Cms')->getCMSByUser(1);
         //nom du bundle, nom de l'entité
             return $this->render('StoreBackendBundle:CMS:list.html.twig',
                 array(
