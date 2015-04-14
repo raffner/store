@@ -19,4 +19,6 @@ store_backend_product_remove:
 
 
 
-
+store_backend_product_new:
+      path:   /new
+      defaults: { _controller: StoreBackendBundle:Product:new }

@@ -41,14 +41,19 @@ class CommentRepository extends EntityRepository{
         return $query->getOneOrNullResult();
     }
 
-    public function getLastCountByUser($user = null){
+    public function getLastCommentsByUser($user = null){
         //Affiche
+        //SELECT c.content
+        //FROM  `comment` AS c
+          //INNER JOIN product AS p ON c.`product_id` = p.id
+        //WHERE p.jeweler_id =1
         $query = $this->getEntityManager()
             ->createQuery(
                 "SELECT com
-                 FROM StoreBackendBundle:Orders com
-                 WHERE com.jeweler = :user
-                 ORDER by com.date
+                 FROM StoreBackendBundle:Comment com
+                 JOIN com.product AS p
+                 WHERE p.jeweler = :user
+                 ORDER BY com.dateCreated
                  "
             )
             ->setMaxResults(5)

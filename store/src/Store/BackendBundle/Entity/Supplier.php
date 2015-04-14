@@ -259,4 +259,8 @@ class Supplier
     {
         return $this->product;
     }
+
+    public function __toString(){
+        return $this->name;
+    }
 }

@@ -40,7 +40,9 @@ class MainController extends Controller {
 
         $nblast = $em->getRepository('StoreBackendBundle:Orders')->getLastOrdersByUser(1);
 
-        $ctlast = $em->getRepository('StoreBackendBundle:Comment')->getLastCountByUser(1);
+        $ctlast = $em->getRepository('StoreBackendBundle:Comment')->getLastCommentsByUser(1);
+
+        $nbprod = $em->getRepository('StoreBackendBundle:Category')->getProductsInCategoriesByUser(1);
 
 
 
@@ -57,7 +59,8 @@ class MainController extends Controller {
                     'nbord'=>$nbord,
                     'nbsum'=>$nbsum,
                     'nblast'=>$nblast,
-                    'ctlast'=>$ctlast
+                    'ctlast'=>$ctlast,
+                    'nbprod'=>$nbprod
 
 
 

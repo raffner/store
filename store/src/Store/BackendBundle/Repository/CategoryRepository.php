@@ -40,4 +40,26 @@ class CategoryRepository extends EntityRepository{
 
         return $query->getOneOrNullResult();
     }
+
+
+public function getProductsInCategoriesByUser($user = null){
+    //Afficher le nombre de produits par catégorie
+    $query = $this->getEntityManager()
+        ->createQuery(
+            "SELECT c
+             FROM StoreBackendBundle:Category c
+             JOIN c.product p
+             WHERE p.jeweler = :user
+             "
+        )
+        ->setParameter("user", $user);
+
+    return $query->getResult();
+
+
+}
+
+
+
+
 }

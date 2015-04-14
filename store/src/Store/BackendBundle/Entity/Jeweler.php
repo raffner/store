@@ -730,4 +730,6 @@ class Jeweler
     public function __toString(){
         return $this->title;
     }
+
+
 }

@@ -927,4 +927,12 @@ class Product
     {
         return $this->tag;
     }
+
+    /**
+     * @return string
+     */
+
+    public function __toString(){
+        return $this->title;
+    }
 }
