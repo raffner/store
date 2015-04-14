@@ -81,15 +81,16 @@
             <div class="panel-body tab-content-padding">
                 <!-- Panel padding, without vertical padding -->
                 <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 300px;"><div class="panel-padding no-padding-vr" style="overflow: hidden; width: auto; height: 300px;">
-                   {{ %for order in nblast  }}
+                   {% for order in nblast %}
+
                         <div class="ticket">
-                            <span class="label label-success ticket-label">Completed</span>
-                            <a href="#" title="" class="ticket-title">Server unavaible<span>[#{{ order.id }}]</span></a>
+                            <span class="label label-success ticket-label">{{ order.jeweler }}</span>
+                            <a href="#" title="" class="ticket-title"><span>[#{{ order.id }}]</span></a>
 								<span class="ticket-info">
-									Opened by <a href="#" title="">Timothy Owens</a> today
+									Opened by <a href="#" title="">{{ order.address }}</a> today
 								</span>
                         </div> <!-- / .ticket -->
-
+                    {% endfor %}
 
                     </div>
                 </div>

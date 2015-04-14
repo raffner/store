@@ -41,6 +41,24 @@ class CommentRepository extends EntityRepository{
         return $query->getOneOrNullResult();
     }
 
+    public function getLastCountByUser($user = null){
+        //Affiche
+        $query = $this->getEntityManager()
+            ->createQuery(
+                "SELECT com
+                 FROM StoreBackendBundle:Orders com
+                 WHERE com.jeweler = :user
+                 ORDER by com.date
+                 "
+            )
+            ->setMaxResults(5)
+            ->setParameter('user', $user);
+
+
+
+
+        return $query->getResult();
+    }
 
 
 }
