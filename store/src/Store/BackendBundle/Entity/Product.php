@@ -3,6 +3,7 @@
 namespace Store\BackendBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Product
@@ -23,6 +24,14 @@ class Product
 
     /**
      * @var string
+     * @Assert\Regex(
+     *
+     *          pattern = "/[A-Z]{4}-[0-9]{2}-[A-Z]{1}/",
+     *          message = "La référence n'est pas valide"
+     * )
+     * @Assert\NotBlank(
+     *  message = "La référence ne doit pas être vide"
+     * )
      *
      * @ORM\Column(name="ref", type="string", length=30, nullable=true)
      */
@@ -30,6 +39,18 @@ class Product
 
     /**
      * @var string
+     *  @Assert\NotBlank(
+     *
+     *  message = "La référence ne doit pas être vide"
+     * )
+     * @Assert\Length(
+     *
+     * min = "4",
+     * max = "1000",
+     * minMessage = "Votre message doit faire au moins {{ limit }} caractères",
+     * maxMessage = "Votre message ne doit pas être plus long que {{ limit }} caractères"
+     *
+     * )
      *
      * @ORM\Column(name="title", type="string", length=150, nullable=true)
      */
@@ -37,6 +58,16 @@ class Product
 
     /**
      * @var string
+     * @Assert\NotBlank(
+     *
+     *  message = "Le champ résumé ne doit pas être vide"
+     * )
+     *  @Assert\Length(
+     *
+     * min = "10",
+     * minMessage = "Votre résumé doit faire au moins {{ limit }} caractères",
+     *
+     * )
      *
      * @ORM\Column(name="summary", type="text", nullable=true)
      */
@@ -44,6 +75,16 @@ class Product
 
     /**
      * @var string
+     * @Assert\NotBlank(
+     *
+     *  message = "Le champ description ne doit pas être vide"
+     * )
+     *  @Assert\Length(
+     *
+     * min = "15",
+     * minMessage = "Votre description doit faire au moins {{ limit }} caractères",
+     *
+     * )
      *
      * @ORM\Column(name="description", type="text", nullable=true)
      */
@@ -51,6 +92,13 @@ class Product
 
     /**
      * @var string
+     * @Assert\Length(
+     *
+     * min = "5",
+     * minMessage = "Votre composition doit faire au moins {{ limit }} caractères",
+     *
+     * )
+     *
      *
      * @ORM\Column(name="composition", type="text", nullable=true)
      */
@@ -58,21 +106,41 @@ class Product
 
     /**
      * @var float
+     * @Assert\NotBlank(
      *
+     *  message = "Le champ prix ne doit pas être vide"
+     * )
+     * @Assert\Range(
+     *      min = 10,
+     *      max = 5000,
+     *      minMessage = "Votre bijoux doit avoir un minimum de 10 euros",
+     *      maxMessage = "Votre bijoux ne pas valoir plus de 5000 euros"
+     * )
      * @ORM\Column(name="price", type="float", precision=10, scale=0, nullable=true)
      */
     private $price;
 
     /**
      * @var float
-     *
+     *@Assert\Choice
+     *             (choices = {"5.5", "19.6", "20"},
+     *              message = "Choisissez un genre valide.")
      * @ORM\Column(name="taxe", type="float", precision=10, scale=0, nullable=true)
      */
     private $taxe;
 
     /**
      * @var integer
+     * @Assert\NotBlank(
      *
+     *  message = "Le champ prix ne doit pas être vide"
+     * )
+     * @Assert\Range(
+     *      min = 1,
+     *      max = 200,
+     *      minMessage = "Votre bijoux doit avoir la quantité minimum de {{ limit }} pièces",
+     *      maxMessage = "Votre bijoux doit avoir la quantité maximum de {{ limit }} pièces"
+     * )
      * @ORM\Column(name="quantity", type="integer", nullable=true)
      */
     private $quantity;
@@ -248,10 +316,22 @@ class Product
     private $tag;
 
     /**
-     * Constructor
+     * Constructor qui initialise les propriétés des objets
      */
     public function __construct()
     {
+
+        $this->active = true;
+        $this->cover = false;
+        $this->dateActive = new \DateTime('now');
+        $this->taxe = 20;
+        $this->shop = true;
+        $this->quantity = 1;
+        $this->price = 0;
+        $this->dateCreated = new\dateTime('now');
+        $this->dateUpdated = new\dateTime('now');
+
+
         $this->user = new \Doctrine\Common\Collections\ArrayCollection();
         $this->order = new \Doctrine\Common\Collections\ArrayCollection();
         $this->business = new \Doctrine\Common\Collections\ArrayCollection();

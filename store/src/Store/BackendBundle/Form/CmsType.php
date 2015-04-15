@@ -18,7 +18,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  * Class ProductType
  * @package Store\BackendBundle\Form
  */
-class ProductType extends AbstractType{
+class CmsType extends AbstractType{
 
     /**
      * @param FormBuilderInterface $builder
@@ -30,44 +30,33 @@ class ProductType extends AbstractType{
     {
         /**
          * Via la méthode add : Ajoute un champ dans mon formulaire
-         * les champs seront les noms des attributs de l'entité traitée (ici Product)
+         * les champs seront les noms des attributs de l'entité traitée (ici CMS)
          * Le deuxième argument à ma fonction add est le type de mon champ
          * Le troisième argument permet de personnaliser le label (attributs html "attr")
          */
 
 
         $builder->add('title', null, array(
-            'label'=>'Nom de mon bijoux',
+            'label'=>'Nom de mon CMS',
             'required' =>true,
             'attr' => array(
-             'class' =>'form-control',
-             'placeholder' => 'Mettre un nom',
-             'pattern' => '[a-zA-Z0-9- ]{5,}'
+                'class' =>'form-control',
+                'placeholder' => 'Mettre un nom',
+                'pattern' => '[a-zA-Z0-9- ]{5,}'
 
             )
         ));
-        $builder->add('ref', null, array(
-            'label'=>'Référence de mon produit',
+        $builder->add('summary', null, array(
+            'label'=>'Résumé de mon CMS',
             'required' =>true,
-        'attr' => array(
-            'class' =>'form-control',
-            'placeholder' => 'AA-XX-B',
-            'pattern' => '[A-Z]{4}-[0-9]{2}-[A-Z]{1}'
-
-        )
-    ));
-        $builder->add('category', null, array('label'=>'Catégories associées',
-        'attr' => array(
-            'class' =>'form-control',
-        )
-    ));
-        $builder->add('summary', null, array('label'=>'Résumé',
             'attr' => array(
-        'class' =>'form-control',
-        'placeholder' => 'Résumé du descriptif',
+                'class' =>'form-control',
+                'placeholder' => 'AA-XX-B',
+
 
             )
-    ));
+        ));
+
         $builder->add('description', null, array(
             'label'=>'Descriptif',
             'required' =>true,
@@ -77,33 +66,35 @@ class ProductType extends AbstractType{
 
             )
         ));
-        $builder->add('composition', null, array(
-            'label'=>'Composition du bijoux',
+        $builder->add('image', null, array(
+            'label'=>'photo de mon produit',
             'required' =>true,
             'attr' => array(
                 'class' =>'form-control',
-                'placeholder' => 'composition du bijoux',
-
+                'placeholder' => 'Photo du produit',
             )
+
+            ));
+            $builder->add('dateActive', array(
+                'choices'=> array('5' => '5', '19.6' => '19.6', '20' => '20'),
+                'required' =>true, //liste déroulante obligatoire
+                'label' =>'Date',
+                'attr' => array(
+                'class'=> 'form-control',
+                )
         ));
-        $builder->add('price', 'money', array(
-            'label'=>'Prix HT',
+        $builder->add('video', array(
+            'label'=>'Vidéo',
             'required' =>true,
             'attr' => array(
                 'class' =>'form-control',
-                'placeholder' => 'Prix en euros',
+                'placeholder' => 'Vidéo',
 
             )
         ));
-        $builder->add('taxe', 'choice', array(
-             'choices'=> array('5' => '5', '19.6' => '19.6', '20' => '20'),
-             'required' =>true, //liste déroulante obligatoire
-             'label' =>'Taxe appliquée',
-             'attr' => array(
-             '  class'=> 'form-control',
-            )
-        ));
-        $builder->add('quantity', 'number', array(
+
+
+        $builder->add('state', array(
             'required' =>true, //liste déroulante obligatoire
             'label' =>'Quantité du produit',
             'attr' => array(
@@ -113,37 +104,7 @@ class ProductType extends AbstractType{
             )
         ));
 
-        $builder->add('active', null, array(
-                'label' =>'Produit activé dans la boutique',
-            )
-        );
-        $builder->add('cover', null, array(
-                'label' =>'Produit mis en couverture  dans la boutique',
-            )
 
-    );
-        $builder->add('cms', null, array(
-        'label'=>'Pages associées au produit',
-        'attr' => array(
-            'class' =>'form-control',
-        )
-
-        ));
-
-        $builder->add('supplier', null, array(
-        'label'=>'Fournisseurs associées au produit',
-        'attr' => array(
-            'class' =>'form-control',
-        )
-
-    ));
-        $builder->add('tag', null, array(
-        'label'=>'Tags associées au produit',
-        'attr' => array(
-            'class' =>'form-control',
-        )
-
-    ));
         $builder->add('envoyer', 'submit', array(
                 'attr' => array(
                     'class' =>'btn btn-primary',
@@ -160,13 +121,13 @@ class ProductType extends AbstractType{
      */
 
     public function setDefaultOptions (OptionsResolverInterface $resolver){
-       /*
-        * Je lie le formulaire à l'entité Product
-        */
-        $resolver->setDefaults(array(
+        /*
+         * Je lie le formulaire à l'entité Product
+         */
+        $resolver->setDefaults([
             'data_class'=>'Store\BackendBundle\Entity\Product',
 
-        ));
+        ]);
     }
 
     /**

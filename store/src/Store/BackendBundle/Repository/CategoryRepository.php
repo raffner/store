@@ -16,9 +16,9 @@ class CategoryRepository extends EntityRepository{
     public function getCategoriesByUser($user = null){
         $query = $this->getEntityManager()
             ->createQuery(
-                "SELECT p
-                      FROM StoreBackendBundle:Category p
-                      WHERE p.jeweler = :user"
+                 "SELECT c
+                  FROM StoreBackendBundle:Category c
+                  WHERE c.jeweler = :user"
             )
             ->setParameter("user", $user);
 

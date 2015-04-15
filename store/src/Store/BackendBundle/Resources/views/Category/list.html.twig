@@ -4,6 +4,11 @@
     Catégories
 {% endblock %}
 {% block content %}
+    <div class ="row">
+        <a href="{{ path('store_backend_category_new') }}" class="btn btn-primary btn-lg btn-rounded">
+            <i class = "fa fa-plus"></i>Ajouter une catégorie</a>
+    </div>
+
     <div class="table-primary">
         <div class="table-header">
             <div class="table-caption">
@@ -29,13 +34,10 @@
      de la table mais sont les attributs des categories #}
     <tr>
 
-        <td>
-            {% for product in category.product %}
-                <a href="{{ path('store_backend_category_view',{'name': category.title, 'id' : category.id } ) }}">{{ category.title }}</a>
-            {% endfor %}
-        </td>
 
 
+
+        <td><a href="">{{ category.title }}</a></td>
         <td><a href="">{{ category.description }}</a></td>
         <td><a href="">{{ category.product|length }}</a></td>
 

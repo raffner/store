@@ -3,6 +3,7 @@
 namespace Store\BackendBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Category
@@ -23,28 +24,44 @@ class Category
 
     /**
      * @var string
+     * @Assert\NotBlank(
      *
+     *      message = "Le titre ne doit pas être vide"
+     * )
+     * @Assert\Length(
+     *
+     *      min = "5",
+     *
+     *      minMessage = "Votre titre doit faire au moins {{ limit }} caractères",
+     * )
      * @ORM\Column(name="title", type="string", length=300, nullable=true)
      */
     private $title;
 
     /**
      * @var string
+     * @Assert\NotBlank(
      *
+     *      message = "La description ne doit pas être vide"
+     * )
+     * @Assert\Length(
+     *
+     *      min = "10",
+     *
+     *      minMessage = "Votre description doit faire au moins {{ limit }} caractères",
+     * )
      * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
 
     /**
      * @var integer
-     *
      * @ORM\Column(name="position", type="integer", nullable=true)
      */
     private $position;
 
     /**
      * @var boolean
-     *
      * @ORM\Column(name="active", type="boolean", nullable=true)
      */
     private $active;

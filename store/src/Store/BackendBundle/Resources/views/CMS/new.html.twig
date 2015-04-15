@@ -15,9 +15,9 @@
 
 {% endblock %}
 {% block titlepage %}
-    <i class="fa fa-plus"></i>Création d'un produit
+    <i class="fa fa-plus"></i>Création d'un CMS
 {%  endblock %}
-{# création du formaulaire label, imput et message d'erreur#}
+{# création du formulaire label, imput et message d'erreur#}
 
 {% block content %}
     {#{{ form(form) }}#}
@@ -35,61 +35,31 @@
 
     {#restitue en une seul ligbne les trois éléments label, input, message d'erreur }}#}
     <div class="row">
-        <div class="col-md-6">
-            {{ form_row(form.ref) }}
-        </div>
-        <div class="col-md-6">
+
+        <div class="col-md-4">
             {{ form_row(form.title) }}
         </div>
-   </div>
-    <div class="row">
         <div class="col-md-4">
             {{ form_row(form.summary) }}
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
             {{ form_row(form.description) }}
         </div>
+    </div>
+    <div class="row">
+
+        <div class="col-md-5">
+            {{ form_row(form.dateActive) }}
+        </div>
         <div class="col-md-2">
-            {{ form_row(form.composition) }}
+            {{ form_row(form.video) }}
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-            {{ form_row(form.price) }}
-        </div>
-        <div class="col-md-4">
-            {{ form_row(form.quantity) }}
-        </div>
-        <div class="col-md-4">
-            {{ form_row(form.taxe) }}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            {{ form_row(form.active) }}
-        </div>
-        <div class="col-md-6">
-            {{ form_row(form.cover) }}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            {{ form_row(form.category) }}
-        </div>
-        <div class="col-md-6">
-            {{ form_row(form.cms) }}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            {{ form_row(form.supplier) }}
-        </div>
-        <div class="col-md-6">
-            {{ form_row(form.tag) }}
+        <div class="col-md-5">
+            {{ form_row(form.state) }}
         </div>
     </div>
 
-   {#BOUTON ENVOYER#}
+    {#BOUTON ENVOYER#}
 
     {{ form_widget(form.envoyer, {'attr':{'class': 'btn btn-lg btn-primary'}}) }}
 
