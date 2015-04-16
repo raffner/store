@@ -3,12 +3,16 @@
 namespace Store\BackendBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Cms
  *
  * @ORM\Table(name="cms", indexes={@ORM\Index(name="jeweler_id", columns={"jeweler_id"})})
  * @ORM\Entity(repositoryClass="Store\BackendBundle\Repository\CmsRepository")
+ * @UniqueEntity(fields="title", message="Votre titre de CMS est déjà utilisée")
+ * @UniqueEntity(fields="title", message="Votre titre de CMS est déjà utilisé")
  */
 class Cms
 {
@@ -23,42 +27,74 @@ class Cms
 
     /**
      * @var string
+     * @Assert\NotBlank(
      *
+     *      message = "Le titre ne doit pas être vide"
+     * )
+     * @Assert\Length(
+     *
+     *      min = "5",
+     *
+     *      minMessage = "Votre titre doit faire au moins {{ limit }} caractères",
+     * )
      * @ORM\Column(name="title", type="string", length=300, nullable=true)
      */
     private $title;
 
     /**
      * @var string
+     * @Assert\NotBlank(
      *
+     *      message = "Le résumé ne doit pas être vide"
+     * )
+     * @Assert\Length(
+     *
+     *      min = "10",
+     *
+     *      minMessage = "Votre résumé doit faire au moins {{ limit }} caractères",
+     * )
      * @ORM\Column(name="summary", type="text", nullable=true)
      */
     private $summary;
 
     /**
      * @var string
+     * @Assert\NotBlank(
      *
+     *      message = "Le résumé ne doit pas être vide"
+     * )
+     * @Assert\Length(
+     *
+     *      min = "15",
+     *
+     *      minMessage = "Votre description doit faire au moins {{ limit }} caractères",
+     * )
      * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
 
     /**
      * @var string
-     *
+     * @Assert\Url(
+            message = "Veuillez saisir une URL correcte"
+     * )
      * @ORM\Column(name="image", type="string", length=300, nullable=true)
      */
     private $image;
 
     /**
      * @var string
-     *
+     * @Assert\Regex(
+     *      pattern = "/^<iframe(?:.)*() src=.*>/",
+     *      message = "L'adresse n'est pas valide"
+     * )
      * @ORM\Column(name="video", type="string", length=300, nullable=true)
      */
     private $video;
 
     /**
      * @var integer
-     *
+
      * @ORM\Column(name="state", type="integer", nullable=true)
      */
     private $state;

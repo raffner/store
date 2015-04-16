@@ -87,10 +87,11 @@ class ProductController extends Controller {
         //$product->setPrice(0); NB : l'objet étant intialisé au niveau du constructeur, je n'ai pas besoin des seteurs
 
         //Je crée un formulaire en associant avec mon produit
-        $form = $this->createForm(new ProductType(), $product,
+        $form = $this->createForm(new ProductType(1), $product,
                 array(
                     'attr' => array(
                             'method' => 'post',
+                            'novalidate' => 'novalidate',
                             'action' => $this->generateUrl('store_backend_product_new')
                         //L'action de formulaire pointe vers cette meme action de formulaire
                 )

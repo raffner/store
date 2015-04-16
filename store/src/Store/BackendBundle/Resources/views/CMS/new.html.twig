@@ -33,7 +33,7 @@
 
 
 
-    {#restitue en une seul ligbne les trois éléments label, input, message d'erreur }}#}
+    {#restitue en une seul ligne les trois éléments label, input, message d'erreur }}#}
     <div class="row">
 
         <div class="col-md-4">
@@ -48,16 +48,22 @@
     </div>
     <div class="row">
 
-        <div class="col-md-5">
-            {{ form_row(form.dateActive) }}
+        <div class="col-md-6">
+            {{ form_row(form.image) }}
         </div>
-        <div class="col-md-2">
+        <div class="col-md-6">
             {{ form_row(form.video) }}
         </div>
-        <div class="col-md-5">
+    </div>
+    <div class="row">
+        <div class="col-md-6">
             {{ form_row(form.state) }}
         </div>
-    </div>
+        <div class="col-md-6">
+            {{ form_row(form.dateActive) }}
+        </div>
+
+     </div>
 
     {#BOUTON ENVOYER#}
 

@@ -15,3 +15,7 @@ store_backend_cms_view:
 store_backend_cms_remove:
      path: /remove/{id}
      defaults: { _controller: StoreBackendBundle:CMS: remove }
+
+store_backend_cms_new:
+      path:   /new
+      defaults: { _controller: StoreBackendBundle:CMS:new }

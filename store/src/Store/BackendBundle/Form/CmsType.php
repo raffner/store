@@ -38,20 +38,19 @@ class CmsType extends AbstractType{
 
         $builder->add('title', null, array(
             'label'=>'Nom de mon CMS',
-            'required' =>true,
-            'attr' => array(
+
+           'attr' => array(
                 'class' =>'form-control',
-                'placeholder' => 'Mettre un nom',
+                'placeholder' => 'Saisir un nom',
                 'pattern' => '[a-zA-Z0-9- ]{5,}'
 
             )
         ));
         $builder->add('summary', null, array(
             'label'=>'Résumé de mon CMS',
-            'required' =>true,
             'attr' => array(
                 'class' =>'form-control',
-                'placeholder' => 'AA-XX-B',
+                'placeholder' => 'résumé',
 
 
             )
@@ -59,33 +58,23 @@ class CmsType extends AbstractType{
 
         $builder->add('description', null, array(
             'label'=>'Descriptif',
-            'required' =>true,
             'attr' => array(
                 'class' =>'form-control',
-                'placeholder' => 'description du bijoux',
+                'placeholder' => 'description du CMS',
 
             )
         ));
         $builder->add('image', null, array(
             'label'=>'photo de mon produit',
-            'required' =>true,
             'attr' => array(
                 'class' =>'form-control',
-                'placeholder' => 'Photo du produit',
+                'placeholder' => 'Photo de la page',
             )
 
             ));
-            $builder->add('dateActive', array(
-                'choices'=> array('5' => '5', '19.6' => '19.6', '20' => '20'),
-                'required' =>true, //liste déroulante obligatoire
-                'label' =>'Date',
-                'attr' => array(
-                'class'=> 'form-control',
-                )
-        ));
-        $builder->add('video', array(
+
+        $builder->add('video',null, array(
             'label'=>'Vidéo',
-            'required' =>true,
             'attr' => array(
                 'class' =>'form-control',
                 'placeholder' => 'Vidéo',
@@ -94,14 +83,19 @@ class CmsType extends AbstractType{
         ));
 
 
-        $builder->add('state', array(
+        $builder->add('state',null, array(
             'required' =>true, //liste déroulante obligatoire
-            'label' =>'Quantité du produit',
+            'label' =>'Etat de la page',
             'attr' => array(
                 'class' =>'form-control',
-                'pattern' => '[0-9]{1,4}'
+        )
+        ));
+        $builder->add('dateActive', null, array(
 
-            )
+            'required' =>true, //liste déroulante obligatoire
+            'widget' => 'choice',
+            'label' =>'Date',
+
         ));
 
 
@@ -125,7 +119,7 @@ class CmsType extends AbstractType{
          * Je lie le formulaire à l'entité Product
          */
         $resolver->setDefaults([
-            'data_class'=>'Store\BackendBundle\Entity\Product',
+            'data_class'=>'Store\BackendBundle\Entity\Cms',
 
         ]);
     }
@@ -136,6 +130,6 @@ class CmsType extends AbstractType{
      */
     public function getName()
     {
-        return "store_backend_product";
+        return "store_backend_cms";
     }
 }

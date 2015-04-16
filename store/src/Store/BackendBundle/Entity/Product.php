@@ -4,12 +4,16 @@ namespace Store\BackendBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Store\BackendBundle\Validator\Constraints as StoreAsserts;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Product
  *
  * @ORM\Table(name="product", indexes={@ORM\Index(name="jeweler_id", columns={"jeweler_id"})})
  * @ORM\Entity(repositoryClass="Store\BackendBundle\Repository\ProductRepository")
+ * @UniqueEntity(fields="ref", message="Votre référence de bijoux est déjà utilisée")
+ * @UniqueEntity(fields="ref", message="Votre titre de bijoux est déjà utilisé")
  */
 class Product
 {
@@ -69,6 +73,7 @@ class Product
      *
      * )
      *
+     *
      * @ORM\Column(name="summary", type="text", nullable=true)
      */
     private $summary;
@@ -79,12 +84,8 @@ class Product
      *
      *  message = "Le champ description ne doit pas être vide"
      * )
-     *  @Assert\Length(
      *
-     * min = "15",
-     * minMessage = "Votre description doit faire au moins {{ limit }} caractères",
-     *
-     * )
+     * @StoreAsserts\StripTagLengh
      *
      * @ORM\Column(name="description", type="text", nullable=true)
      */
@@ -206,7 +207,7 @@ class Product
      *
      * @ORM\ManyToOne(targetEntity="Jeweler")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="jeweler_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="jeweler_id", referencedColumnName="id")
      * })
      */
     private $jeweler;
@@ -242,7 +243,12 @@ class Product
 
     /**
      * @var \Doctrine\Common\Collections\Collection
-     *
+     * @Assert\Count(
+     *      min = "1",
+     *      max = "10",
+     *      minMessage = "Vous devez spécifier au moins une catégorie",
+     *      maxMessage = "Vous ne pouvez pas spécifier plus de {{ limit }} catégories"
+     * )
      * @ORM\ManyToMany(targetEntity="Category", inversedBy="product")
      * @ORM\JoinTable(name="product_category",
      *   joinColumns={
@@ -257,7 +263,12 @@ class Product
 
     /**
      * @var \Doctrine\Common\Collections\Collection
-     *
+     * @Assert\Count(
+     *      min = "1",
+     *      max = "10",
+     *      minMessage = "Vous devez spécifier au moins un CMS associé",
+     *      maxMessage = "Vous ne pouvez pas spécifier plus de {{ limit }} pages CMS associés"
+     * )
      * @ORM\ManyToMany(targetEntity="Cms", inversedBy="product")
      * @ORM\JoinTable(name="product_cms",
      *   joinColumns={

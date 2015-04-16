@@ -55,13 +55,12 @@ class CMSController extends Controller {
         // récupère le manager de la doctrine
         $em = $this->getDoctrine()->getManager();
 
-        //récupèrte le produit de ma base de données
+        //récupèrte le cms de ma base de données
         $CMS = $em->getRepository('StoreBackendBundle:Cms')->find($id);
 
         $em->remove($CMS);
         $em->flush;
-
-        $this->redirectToRoute('store_backend_cms_list');
+        $this->redirectToRoute('store_backend_CMS_list');
 
 
     }
@@ -71,22 +70,24 @@ class CMSController extends Controller {
      */
     public function newAction(Request $request){
         //Je crée une nouvelle entité CMS : NB : USER à chaque création d'objet
-        $cms=new CMSController();
+        $CMS=new CMS();
         $em = $this->getDoctrine()->getManager();// je récupère le manager de doctrine
-        $jeweler = $em->getRepository('StoreBackendBundle:Cms')->find(1);
-        $cms->setCms($cms);//J'associe mon jeweller à une catégorie
+        $jeweler = $em->getRepository('StoreBackendBundle:Jeweler')->find(1);
+        $CMS->setJeweler($jeweler);//J'associe mon jeweller à un CMS
+
+
 
         // J'initialise les données de mes catégories
-        //NB : initialiser tous les objets de catégorie : à faire dans le constructeur categorie.php
+        //NB : initialiser tous les objets de cms : à faire dans le constructeur categorie.php
         //$category->setQuantity(0);
         //$category->setPrice(0); NB : l'objet étant intialisé au niveau du constructeur, je n'ai pas besoin des seteurs
 
-        //Je crée un formulaire en associant avec ma catégorie
-        $form = $this->createForm(new CmsType(), $cms,
+        //Je crée un formulaire en associant avec mon CMS
+        $form = $this->createForm(new CmsType(), $CMS,
             array(
                 'attr' => array(
                     'method' => 'post',
-                    'action' => $this->generateUrl('store_backend_category_new')
+                    'action' => $this->generateUrl('store_backend_cms_new')
                     //L'action de formulaire pointe vers cette meme action de formulaire
                 )
             ));
@@ -99,13 +100,13 @@ class CMSController extends Controller {
         if($form->isValid()){
 
             $em = $this->getDoctrine()->getManager();// je récupère le manager de doctrine
-            $em->persist($category);//J'enregistre mon objet ds doctrine (l'objet est en cache à cet instant, juste avant d'être flushé)
-            $em->flush();//J'envoie ma requête d'insert à ma table product.
+            $em->persist($CMS);//J'enregistre mon objet ds doctrine (l'objet est en cache à cet instant, juste avant d'être flushé)
+            $em->flush();//J'envoie ma requête d'insert à ma table Cms.
 
-            return $this->redirectToRoute('store_backend_category_list'); //redirection selon la route vers la liste de mes catégories.
+            return $this->redirectToRoute('store_backend_CMS_list'); //redirection selon la route vers la liste de mes CMS.
         }
 
-        return $this->render('StoreBackendBundle:Category:new.html.twig',
+        return $this->render('StoreBackendBundle:CMS:new.html.twig',
             array('form' =>$form->createView())
         );
     }

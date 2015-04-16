@@ -1,4 +1,6 @@
 {% extends "StoreBackendBundle::layout.html.twig" %}
+{#Cette fonction va me chercher un thème de formulaire : le code  ayant été placé dans le fichier form.html du dossier Partial#}
+{% form_theme form "StoreBackendBundle:Partial:form.html.twig" %}
 {% block javascripts %}
     {{ parent() }}
     <script>
@@ -60,8 +62,11 @@
         <div class="col-md-4">
             {{ form_row(form.quantity) }}
         </div>
-        <div class="col-md-4">
+        <div class="col-md-2">
             {{ form_row(form.taxe) }}
+        </div>
+        <div class="col-md-2">
+            {{ form_row(form.dateActive) }}
         </div>
     </div>
     <div class="row">

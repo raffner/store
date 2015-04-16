@@ -9,6 +9,8 @@ namespace Store\BackendBundle\Form;
  * Time: 16:00
  */
 
+use Store\BackendBundle\Repository\CategoryRepository;
+use Store\BackendBundle\Repository\CmsRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -19,6 +21,18 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  * @package Store\BackendBundle\Form
  */
 class ProductType extends AbstractType{
+
+    /**
+     * @var
+     */
+    protected $user;
+
+    /**
+     * @param null $user
+     */
+    public function __construct($user = null){
+        $this->user = $user;
+    }
 
     /**
      * @param FormBuilderInterface $builder
@@ -55,12 +69,38 @@ class ProductType extends AbstractType{
             'pattern' => '[A-Z]{4}-[0-9]{2}-[A-Z]{1}'
 
         )
-    ));
-        $builder->add('category', null, array('label'=>'Catégories associées',
-        'attr' => array(
-            'class' =>'form-control',
-        )
-    ));
+     ));
+        /**
+         * Méthode 1
+         */
+//        $builder->add('category', null, array(
+//            'label'=>'Catégorie',
+//            'class' => 'StoreBackendBundle:Category',
+//            'property' => 'title',
+//            'query_builder' => function(EntityRepository $er){
+//                        return $er->createQueryBuilder('c')
+//                            ->where('c.jeweler = :user')
+//                            ->orderBy('c.title', 'ASC')
+//                            ->setParameter('user', $this->$user);
+//                },
+//    ));
+        /**
+         * méthode 2
+         */
+        $builder->add('category', 'entity', array(
+            'label'=>'Catégorie',
+            'attr' => array(
+                'class' =>'form-control',
+             ),
+            'class' => 'StoreBackendBundle:Category',
+            'property' => 'title',
+            'multiple' => true,//choix multiple
+            'expanded' => true,//checbox plutôt quer liste déroulante : NB pour expanded, il faut avoir multiple
+            'query_builder' => function(CategoryRepository $er){
+                    return $er->getCategoryByUserBuilder($this->user);
+
+                },
+        ));
         $builder->add('summary', null, array('label'=>'Résumé',
             'attr' => array(
         'class' =>'form-control',
@@ -103,6 +143,13 @@ class ProductType extends AbstractType{
              '  class'=> 'form-control',
             )
         ));
+        $builder->add('dateActive', 'datetime', array(
+            'widget' =>'choice', //liste déroulante obligatoire
+            'label' =>'Date active',
+            'pattern' => '{{ day }}-{{ month }}-{{ year }}',
+
+            )
+        );
         $builder->add('quantity', 'number', array(
             'required' =>true, //liste déroulante obligatoire
             'label' =>'Quantité du produit',
@@ -122,12 +169,20 @@ class ProductType extends AbstractType{
             )
 
     );
-        $builder->add('cms', null, array(
-        'label'=>'Pages associées au produit',
-        'attr' => array(
-            'class' =>'form-control',
-        )
 
+        $builder->add('cms', 'entity', array(
+            'label'=>'Pages associées au produit',
+            'attr' => array(
+                'class' =>'form-control',
+            ),
+            'class' => 'StoreBackendBundle:Cms',
+            'property' => 'title',
+            'multiple' => true,//choix multiple
+            'expanded' => true,//checbox plutôt quer liste déroulante : NB pour expanded, il faut avoir multiple
+            'query_builder' => function(CmsRepository $er){
+                    return $er->getCmsByUserBuilder($this->user);
+
+                },
         ));
 
         $builder->add('supplier', null, array(
