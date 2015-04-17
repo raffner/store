@@ -12,8 +12,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Table(name="product", indexes={@ORM\Index(name="jeweler_id", columns={"jeweler_id"})})
  * @ORM\Entity(repositoryClass="Store\BackendBundle\Repository\ProductRepository")
- * @UniqueEntity(fields="ref", message="Votre référence de bijoux est déjà utilisée")
- * @UniqueEntity(fields="ref", message="Votre titre de bijoux est déjà utilisé")
+ * @UniqueEntity(fields="ref", message="Votre référence de bijoux est déjà utilisée", groups={"new"})
+ * @UniqueEntity(fields="title", message="Votre titre de bijoux est déjà utilisé", groups={"new"})
+ *
  */
 class Product
 {
@@ -31,10 +32,12 @@ class Product
      * @Assert\Regex(
      *
      *          pattern = "/[A-Z]{4}-[0-9]{2}-[A-Z]{1}/",
-     *          message = "La référence n'est pas valide"
+     *          message = "La référence n'est pas valide",
+     *          groups={"new", "edit"}
      * )
      * @Assert\NotBlank(
-     *  message = "La référence ne doit pas être vide"
+     *  message = "La référence ne doit pas être vide",
+     *  groups={"new", "edit"}
      * )
      *
      * @ORM\Column(name="ref", type="string", length=30, nullable=true)
@@ -45,14 +48,16 @@ class Product
      * @var string
      *  @Assert\NotBlank(
      *
-     *  message = "La référence ne doit pas être vide"
+     *  message = "La référence ne doit pas être vide",
+     *  groups={"new", "edit"}
      * )
      * @Assert\Length(
      *
      * min = "4",
      * max = "1000",
      * minMessage = "Votre message doit faire au moins {{ limit }} caractères",
-     * maxMessage = "Votre message ne doit pas être plus long que {{ limit }} caractères"
+     * maxMessage = "Votre message ne doit pas être plus long que {{ limit }} caractères",
+     * groups={"new", "edit"}
      *
      * )
      *
@@ -60,29 +65,60 @@ class Product
      */
     private $title;
 
+    /*
+     * @ORM\Column(name="imagepresentation", type="string", length=400, nullable=true)
+     */
+    protected $imagepresentation;
+
+
+    /**
+     * Attribut qui représentera mon fichier uploadé
+     * @Assert\Image(
+     *      minWidth = 100,
+     *      maxWidth = 3000,
+     *      minHeight = 100,
+     *      maxHeight = 2500,
+     *      minWidthMessage = "La largeur est trop petite",
+     *      maxWidthMessage = "La largeur est trop grande",
+     *      minHeightMessage = "La hauteur est trop petite",
+     *      maxHeightMessage = "La hauteur est trop grande",
+     *      groups={"new", "edit"}
+     *  )
+     */
+    protected $file;
+
+    /**
+     * @param mixed $file
+     */
+
+
     /**
      * @var string
      * @Assert\NotBlank(
      *
-     *  message = "Le champ résumé ne doit pas être vide"
+     *  message = "Le champ résumé ne doit pas être vide",
+     *  groups={"new", "edit"}
      * )
      *  @Assert\Length(
      *
      * min = "10",
      * minMessage = "Votre résumé doit faire au moins {{ limit }} caractères",
+     * groups={"new", "edit"}
      *
      * )
      *
      *
      * @ORM\Column(name="summary", type="text", nullable=true)
      */
+
     private $summary;
 
     /**
      * @var string
      * @Assert\NotBlank(
      *
-     *  message = "Le champ description ne doit pas être vide"
+     *  message = "Le champ description ne doit pas être vide",
+     *  groups={"new", "edit"}
      * )
      *
      * @StoreAsserts\StripTagLengh
@@ -97,6 +133,7 @@ class Product
      *
      * min = "5",
      * minMessage = "Votre composition doit faire au moins {{ limit }} caractères",
+     * groups={"new", "edit"}
      *
      * )
      *
@@ -109,13 +146,15 @@ class Product
      * @var float
      * @Assert\NotBlank(
      *
-     *  message = "Le champ prix ne doit pas être vide"
+     *  message = "Le champ prix ne doit pas être vide",
+     *  groups={"new", "edit"}
      * )
      * @Assert\Range(
      *      min = 10,
      *      max = 5000,
      *      minMessage = "Votre bijoux doit avoir un minimum de 10 euros",
-     *      maxMessage = "Votre bijoux ne pas valoir plus de 5000 euros"
+     *      maxMessage = "Votre bijoux ne pas valoir plus de 5000 euros",
+     *      groups={"new", "edit"}
      * )
      * @ORM\Column(name="price", type="float", precision=10, scale=0, nullable=true)
      */
@@ -125,7 +164,9 @@ class Product
      * @var float
      *@Assert\Choice
      *             (choices = {"5.5", "19.6", "20"},
-     *              message = "Choisissez un genre valide.")
+     *              message = "Choisissez un genre valide.",
+     *              groups={"new", "edit"}
+     * )
      * @ORM\Column(name="taxe", type="float", precision=10, scale=0, nullable=true)
      */
     private $taxe;
@@ -134,13 +175,15 @@ class Product
      * @var integer
      * @Assert\NotBlank(
      *
-     *  message = "Le champ prix ne doit pas être vide"
+     *  message = "Le champ prix ne doit pas être vide",
+     *  groups={"new", "edit"}
      * )
      * @Assert\Range(
      *      min = 1,
      *      max = 200,
      *      minMessage = "Votre bijoux doit avoir la quantité minimum de {{ limit }} pièces",
-     *      maxMessage = "Votre bijoux doit avoir la quantité maximum de {{ limit }} pièces"
+     *      maxMessage = "Votre bijoux doit avoir la quantité maximum de {{ limit }} pièces",
+     *      groups={"new", "edit"}
      * )
      * @ORM\Column(name="quantity", type="integer", nullable=true)
      */
@@ -247,7 +290,8 @@ class Product
      *      min = "1",
      *      max = "10",
      *      minMessage = "Vous devez spécifier au moins une catégorie",
-     *      maxMessage = "Vous ne pouvez pas spécifier plus de {{ limit }} catégories"
+     *      maxMessage = "Vous ne pouvez pas spécifier plus de {{ limit }} catégories",
+     *      groups={"new", "edit"}
      * )
      * @ORM\ManyToMany(targetEntity="Category", inversedBy="product")
      * @ORM\JoinTable(name="product_category",
@@ -267,7 +311,8 @@ class Product
      *      min = "1",
      *      max = "10",
      *      minMessage = "Vous devez spécifier au moins un CMS associé",
-     *      maxMessage = "Vous ne pouvez pas spécifier plus de {{ limit }} pages CMS associés"
+     *      maxMessage = "Vous ne pouvez pas spécifier plus de {{ limit }} pages CMS associés",
+     *      groups={"new", "edit"}
      * )
      * @ORM\ManyToMany(targetEntity="Cms", inversedBy="product")
      * @ORM\JoinTable(name="product_cms",
@@ -313,6 +358,13 @@ class Product
 
     /**
      * @var \Doctrine\Common\Collections\Collection
+     * @Assert\Count(
+     *      min = "1",
+     *      max = "10",
+     *      minMessage = "Vous devez spécifier au moins un tag associé",
+     *      maxMessage = "Vous ne pouvez pas spécifier plus de {{ limit }} pages tags associés",
+     *      groups={"edit"}
+     * )
      *
      * @ORM\ManyToMany(targetEntity="Tag", inversedBy="product")
      * @ORM\JoinTable(name="product_tag",
@@ -1026,4 +1078,112 @@ class Product
     public function __toString(){
         return $this->title;
     }
+    /**
+     * @var string
+     */
+
+
+
+    /**
+     * Set imagepresentation
+     *
+     * @param string $imagepresentation
+     * @return Product
+     */
+    public function setImagepresentation($imagepresentation)
+    {
+        $this->imagepresentation = $imagepresentation;
+
+        return $this;
+    }
+
+    /**
+     * Get imagepresentation
+     *
+     * @return string 
+     */
+    public function getImagepresentation()
+    {
+        return $this->imagepresentation;
+    }
+
+
+    public function setFile($file)
+    {
+        $this->file = $file;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    /**
+     * Retourne le chemin absolu d e mon image (imagePresentation)
+     * @return null|string
+     */
+    public function getAbsolutePath()
+    {
+        return null === $this->imagepresentation ? null : $this->getUploadRootDir().'/'.$this->imagepresentation;
+    }
+
+    /**
+     * Retourne le chemin de l'image depuis le dossier Web
+     * @return null|string
+     */
+    public function getWebPath()
+    {
+        return null === $this->imagepresentation ? null : $this->getUploadDir().'/'.$this->imagepresentation;
+    }
+
+    /**
+     * Retourne le chemin de l'image depuis l'entité
+     * @return string
+     */
+    protected function getUploadRootDir()
+    {
+        // le chemin absolu du répertoire où les documents uploadés doivent être sauvegardés
+        return __DIR__.'/../../../../web/'.$this->getUploadDir();
+    }
+
+    /**
+     * Retourne le dossier d'upload et sous-dossier d'upload
+     * @return string
+     */
+    protected function getUploadDir()
+    {
+        // on se débarrasse de « __DIR__ » afin de ne pas avoir de problème lorsqu'on affiche
+        // le document/image dans la vue.
+        return 'uploads/product';
+    }
+
+    /**
+     * Mécanisme d'upload et déplacement du fichier dans le bon dossier
+     *
+     */
+    public function upload()
+    {
+        // la propriété « file » peut être vide si le champ n'est pas requis
+        if (null === $this->file) {
+            return;
+        }
+
+        // utilisez le nom de fichier original ici mais
+        // vous devriez « l'assainir » pour au moins éviter
+        // quelconques problèmes de sécurité
+
+        // Je déplace le fichier uploadé dans le bon répertoire upload product
+        $this->file->move($this->getUploadRootDir(), $this->file->getClientOriginalName());
+
+        // Je stocke le nom du fichier uploadé dans mon attribut image présentation
+        $this->imagepresentation = $this->file->getClientOriginalName();
+
+
+        // « nettoie » la propriété « file » comme vous n'en aurez plus besoin
+        $this->file = null;
+    }
+
 }

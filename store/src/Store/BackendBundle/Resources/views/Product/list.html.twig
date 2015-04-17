@@ -25,7 +25,11 @@
             {% endif %}
          <p>{{ product.ref }}</p>
     {# affiche la liste des produits - ref, title ne renvoient pas aux champs
-     de la table mais sont les attributs des produits #}
+     de la table mais sont les attributs des produits #}<div class ="row">
+    <a href="{{ path('store_backend_product_edit',{'id' : product.id} ) }}" class="btn btn-primary btn-lg btn-rounded">
+        <i class = "fa fa-pencil"></i>Editer un produit</a>
+    </div>
+
         <a href="{{ path('store_backend_product_remove',{'id' : product.id} ) }}">DELETE THIS PRODUCT</a>
         <p>Descriptif : {{ product.description }}</p>
         <p>Prix : {{ product.price }}</p>

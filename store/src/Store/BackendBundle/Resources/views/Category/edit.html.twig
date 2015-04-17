@@ -1,0 +1,27 @@
+{% extends "StoreBackendBundle::layout.html.twig" %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        init.push(function () {
+            $('textarea').summernote({
+                height: 200,
+                tabsize: 2,
+                codemirror: {
+                    theme: 'monokai'
+                }
+            });
+        });
+    </script>
+
+{% endblock %}
+{% block titlepage %}
+    <i class="fa fa-pencil"></i>Editer une catégorie
+{%  endblock %}
+{# création du formulaire label, imput et message d'erreur#}
+
+{% block content %}
+
+
+    {{ include('StoreBackendBundle:Category:_form.html.twig') }}
+
+{%  endblock %}

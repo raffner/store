@@ -11,8 +11,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Table(name="category", indexes={@ORM\Index(name="jeweler_id", columns={"jeweler_id"})})
  * @ORM\Entity(repositoryClass="Store\BackendBundle\Repository\CategoryRepository")
- * @UniqueEntity(fields="title", message="Votre titre de catégorie est déjà utilisée")
- * @UniqueEntity(fields="title", message="Votre titre de catégorie est déjà utilisé")                                                                                                                                               
+ * @UniqueEntity(fields="title", message="Votre titre de catégorie est déjà utilisée", groups={"new"})
+ * @UniqueEntity(fields="title", message="Votre titre de catégorie est déjà utilisé", groups={"new"})                                                                                                                                               
  */
 class Category
 {
@@ -29,13 +29,15 @@ class Category
      * @var string
      * @Assert\NotBlank(
      *
-     *      message = "Le titre ne doit pas être vide"
+     *      message = "Le titre ne doit pas être vide",
+     *      groups={"new", "edit"}
      * )
      * @Assert\Length(
      *
      *      min = "5",
      *
      *      minMessage = "Votre titre doit faire au moins {{ limit }} caractères",
+     *      groups={"new", "edit"}
      * )
      * @ORM\Column(name="title", type="string", length=300, nullable=true)
      */
@@ -45,13 +47,15 @@ class Category
      * @var string
      * @Assert\NotBlank(
      *
-     *      message = "La description ne doit pas être vide"
+     *      message = "La description ne doit pas être vide",
+     *      groups={"new", "edit"}
      * )
      * @Assert\Length(
      *
      *      min = "10",
      *
      *      minMessage = "Votre description doit faire au moins {{ limit }} caractères",
+     *      groups={"new", "edit"}
      * )
      * @ORM\Column(name="description", type="text", nullable=true)
      */

@@ -51,7 +51,7 @@
                              <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Actions <i class="fa fa-caret-down"></i></button>
                              <ul class="dropdown-menu">
                                  <li><a href="{{ path('store_backend_cms_view',{'id' : page.id } ) }}">Voir </a></li>
-                                 <li><a href=" ">Editer</a></li>
+                                 <li> <a href="{{ path('store_backend_cms_edit',{'id' : page.id} ) }}">Editer</a></li>
                                  <li><a href="{{ path('store_backend_cms_remove',{'id' : page.id} ) }}">Supprimer</a></li>
                              </ul>
                          </div>

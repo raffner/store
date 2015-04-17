@@ -21,6 +21,9 @@
 
 
     <div id="content-wrapper">
+        {#J'inclus ici ma vue de messages flash centralisés dan sle fichier partial#}
+        {{ include("StoreBackendBundle:Partial:flashdatas.html.twig") }}
+
             <div class="page-header">
 
                 <div class="row">
@@ -66,6 +69,7 @@
 
             <script type="text/javascript">
                 init.push(function () {
+                    $("select[multiple]").select2()
                     // Javascript code here
                 })
                 window.PixelAdmin.start(init);

@@ -95,7 +95,6 @@ class ProductType extends AbstractType{
             'class' => 'StoreBackendBundle:Category',
             'property' => 'title',
             'multiple' => true,//choix multiple
-            'expanded' => true,//checbox plutôt quer liste déroulante : NB pour expanded, il faut avoir multiple
             'query_builder' => function(CategoryRepository $er){
                     return $er->getCategoryByUserBuilder($this->user);
 
@@ -117,6 +116,16 @@ class ProductType extends AbstractType{
 
             )
         ));
+        $builder->add('file', 'file', array(
+            'label'=>'Image de présentation',
+            'required' =>false,
+            'attr' => array(
+                'class' =>'form-control',
+                'accept' => 'image/*',
+                'capture' => 'capture'
+            )
+         ));
+
         $builder->add('composition', null, array(
             'label'=>'Composition du bijoux',
             'required' =>true,
@@ -178,7 +187,7 @@ class ProductType extends AbstractType{
             'class' => 'StoreBackendBundle:Cms',
             'property' => 'title',
             'multiple' => true,//choix multiple
-            'expanded' => true,//checbox plutôt quer liste déroulante : NB pour expanded, il faut avoir multiple
+
             'query_builder' => function(CmsRepository $er){
                     return $er->getCmsByUserBuilder($this->user);
 

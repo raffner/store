@@ -90,6 +90,7 @@ class ProductController extends Controller {
         $form = $this->createForm(new ProductType(1), $product,
                 array(
                     'attr' => array(
+                            'validation_groups'=> 'new',
                             'method' => 'post',
                             'novalidate' => 'novalidate',
                             'action' => $this->generateUrl('store_backend_product_new')
@@ -103,15 +104,75 @@ class ProductController extends Controller {
         $form->handleRequest($request);
            //Si la totalité du formulaire est valide
         if($form->isValid()){
-
-            $em = $this->getDoctrine()->getManager();// je récupère le manager de doctrine
+            //Le fichier est ici uploadé en faisant appel à la méthode upload
+            $product->upload();
+            exit(var_dump($product->getImagepresentation()));
             $em->persist($product);//J'enregistre mon objet ds doctrine (l'objet est en cache à cet instant, juste avant d'être flushé)
             $em->flush();//J'envoie ma requête d'insert à ma table product.
-
+            // Je crée un message flash avec la clé sucess et un message de confirm
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                'Votre produit a bien été créé!'
+            );
             return $this->redirectToRoute('store_backend_product_list'); //redirection selon la route vers la liste de mes produits.
         }
 
         return $this->render('StoreBackendBundle:Product:new.html.twig',
+            array('form' =>$form->createView())
+        );
+    }
+    public function editAction(Request $request, $id){
+
+
+        $em = $this->getDoctrine()->getManager();// je récupère le manager de doctrine
+
+        //Je vais chercher un objet par son id (il ne s'agit pas en effet d'un nouveau produit mais d'un produit existant)
+        $product = $em->getRepository('StoreBackendBundle:Product')->find($id)
+;
+        $jeweler = $em->getRepository('StoreBackendBundle:Jeweler')->find(1);
+        $product->setJeweler($jeweler);//J'associe mon jeweller à un produit
+
+
+        //Je crée un formulaire en associant avec mon produit
+        $form = $this->createForm(new ProductType(1), $product,
+            array(
+                'validation_groups'=> 'new',
+                'attr' => array(
+                    'method' => 'post',
+                    'novalidate' => 'novalidate',
+                    'action' => $this->generateUrl('store_backend_product_edit',
+                        array('id' => $id))
+                    //L'action de formulaire pointe vers cette meme action de formulaire
+                )
+            ));
+        //Je fusionne ma requête avec mon formulaire
+        //Le formulaire étant lié à l'entité, il connait les contraintes de l'entité et les champs associés, mais maintenant il est aussi
+        //lié à la requete (objet Request) qui est aussi chargé de données : La requete est lié au formulaire qui est lié à l'entité.
+        //Les données saisie par l'utilisateur sont fusionnés par rapport au champ du formulaire qui sont aussi les attributs en entité.
+        $form->handleRequest($request);
+        //Si la totalité du formulaire est valide
+        if($form->isValid()){
+            $product->upload();
+
+            $em = $this->getDoctrine()->getManager();// je récupère le manager de doctrine
+            $em->persist($product);//J'enregistre mon objet ds doctrine (l'objet est en cache à cet instant, juste avant d'être flushé)
+            $em->flush();//J'envoie ma requête d'insert à ma table product.
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                'Votre produit a bien été modifié!'
+            );
+            //je récupère la quantité du produit enregistré
+            $quantity = $product->getQuantity();
+            if($quantity == 1){
+                $this->get('session')->getFlashBag()->add(
+                    'warning',
+                    'Votre produit est unique!'
+                );
+            }
+            return $this->redirectToRoute('store_backend_product_list'); //redirection selon la route vers la liste de mes produits.
+        }
+
+        return $this->render('StoreBackendBundle:Product:edit.html.twig',
             array('form' =>$form->createView())
         );
     }

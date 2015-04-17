@@ -59,8 +59,8 @@ class CMSController extends Controller {
         $CMS = $em->getRepository('StoreBackendBundle:Cms')->find($id);
 
         $em->remove($CMS);
-        $em->flush;
-        $this->redirectToRoute('store_backend_CMS_list');
+        $em->flush();
+       return $this->redirectToRoute('store_backend_cms_list');
 
 
     }
@@ -78,9 +78,9 @@ class CMSController extends Controller {
 
 
         // J'initialise les données de mes catégories
-        //NB : initialiser tous les objets de cms : à faire dans le constructeur categorie.php
-        //$category->setQuantity(0);
-        //$category->setPrice(0); NB : l'objet étant intialisé au niveau du constructeur, je n'ai pas besoin des seteurs
+        //NB : initialiser tous les objets de cms : à faire dans le constructeur cms.php
+        //$cms->setQuantity(0);
+        //$cms->setPrice(0); NB : l'objet étant intialisé au niveau du constructeur, je n'ai pas besoin des seteurs
 
         //Je crée un formulaire en associant avec mon CMS
         $form = $this->createForm(new CmsType(), $CMS,
@@ -102,11 +102,61 @@ class CMSController extends Controller {
             $em = $this->getDoctrine()->getManager();// je récupère le manager de doctrine
             $em->persist($CMS);//J'enregistre mon objet ds doctrine (l'objet est en cache à cet instant, juste avant d'être flushé)
             $em->flush();//J'envoie ma requête d'insert à ma table Cms.
-
-            return $this->redirectToRoute('store_backend_CMS_list'); //redirection selon la route vers la liste de mes CMS.
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                'Votre CMS a bien été créé!'
+            );
+            return $this->redirectToRoute('store_backend_cms_list'); //redirection selon la route vers la liste de mes CMS.
         }
 
         return $this->render('StoreBackendBundle:CMS:new.html.twig',
+            array('form' =>$form->createView())
+        );
+    }
+
+    public function editAction(Request $request, $id){
+
+
+        $em = $this->getDoctrine()->getManager();// je récupère le manager de doctrine
+
+        //Je vais chercher un objet par son id (il ne s'agit pas en effet d'un nouveau produit mais d'un produit existant)
+        $CMS = $em->getRepository('StoreBackendBundle:Cms')->find($id)
+        ;
+        $jeweler = $em->getRepository('StoreBackendBundle:Jeweler')->find(1);
+        $CMS->setJeweler($jeweler);//J'associe mon jeweller à un produit
+
+
+        //Je crée un formulaire en associant avec mon produit
+        $form = $this->createForm(new CmsType(1), $CMS,
+            array(
+                'validation_groups'=> 'new',
+                'attr' => array(
+                    'method' => 'post',
+                    'novalidate' => 'novalidate',
+                    'action' => $this->generateUrl('store_backend_cms_edit',
+                            array('id' => $id))
+                    //L'action de formulaire pointe vers cette meme action de formulaire
+                )
+            ));
+        //Je fusionne ma requête avec mon formulaire
+        //Le formulaire étant lié à l'entité, il connait les contraintes de l'entité et les champs associés, mais maintenant il est aussi
+        //lié à la requete (objet Request) qui est aussi chargé de données : La requete est lié au formulaire qui est lié à l'entité.
+        //Les données saisie par l'utilisateur sont fusionnés par rapport au champ du formulaire qui sont aussi les attributs en entité.
+        $form->handleRequest($request);
+        //Si la totalité du formulaire est valide
+        if($form->isValid()){
+
+            $em = $this->getDoctrine()->getManager();// je récupère le manager de doctrine
+            $em->persist($CMS);//J'enregistre mon objet ds doctrine (l'objet est en cache à cet instant, juste avant d'être flushé)
+            $em->flush();//J'envoie ma requête d'insert à ma table product.
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                'Votre CMS a bien été modifié!'
+            );
+            return $this->redirectToRoute('store_backend_cms_list'); //redirection selon la route vers la liste de mes produits.
+        }
+
+        return $this->render('StoreBackendBundle:CMS:edit.html.twig',
             array('form' =>$form->createView())
         );
     }

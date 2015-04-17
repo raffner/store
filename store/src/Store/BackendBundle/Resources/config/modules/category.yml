@@ -22,3 +22,7 @@ store_backend_category_remove:
 store_backend_category_new:
       path:   /new
       defaults: { _controller: StoreBackendBundle:Category:new }
+
+store_backend_category_edit:
+      path:   /edit/{id}
+      defaults: { _controller: StoreBackendBundle:Category:edit }

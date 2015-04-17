@@ -38,8 +38,8 @@ class CmsType extends AbstractType{
 
         $builder->add('title', null, array(
             'label'=>'Nom de mon CMS',
-
-           'attr' => array(
+            'required' => false,
+            'attr' => array(
                 'class' =>'form-control',
                 'placeholder' => 'Saisir un nom',
                 'pattern' => '[a-zA-Z0-9- ]{5,}'
@@ -48,6 +48,7 @@ class CmsType extends AbstractType{
         ));
         $builder->add('summary', null, array(
             'label'=>'Résumé de mon CMS',
+            'required' => false,
             'attr' => array(
                 'class' =>'form-control',
                 'placeholder' => 'résumé',
@@ -58,6 +59,7 @@ class CmsType extends AbstractType{
 
         $builder->add('description', null, array(
             'label'=>'Descriptif',
+            'required' => false,
             'attr' => array(
                 'class' =>'form-control',
                 'placeholder' => 'description du CMS',
@@ -66,6 +68,7 @@ class CmsType extends AbstractType{
         ));
         $builder->add('image', null, array(
             'label'=>'photo de mon produit',
+            'required' => false,
             'attr' => array(
                 'class' =>'form-control',
                 'placeholder' => 'Photo de la page',
@@ -75,6 +78,7 @@ class CmsType extends AbstractType{
 
         $builder->add('video',null, array(
             'label'=>'Vidéo',
+            'required' => false,
             'attr' => array(
                 'class' =>'form-control',
                 'placeholder' => 'Vidéo',
@@ -84,7 +88,7 @@ class CmsType extends AbstractType{
 
 
         $builder->add('state',null, array(
-            'required' =>true, //liste déroulante obligatoire
+            'required' =>false, //liste déroulante obligatoire
             'label' =>'Etat de la page',
             'attr' => array(
                 'class' =>'form-control',
@@ -92,7 +96,7 @@ class CmsType extends AbstractType{
         ));
         $builder->add('dateActive', null, array(
 
-            'required' =>true, //liste déroulante obligatoire
+            'required' =>false, //liste déroulante obligatoire
             'widget' => 'choice',
             'label' =>'Date',
 

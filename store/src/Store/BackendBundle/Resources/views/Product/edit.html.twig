@@ -1,0 +1,29 @@
+{% extends "StoreBackendBundle::layout.html.twig" %}
+{#Cette fonction va me chercher un thème de formulaire : le code  ayant été placé dans le fichier form.html du dossier Partial#}
+{% form_theme form "StoreBackendBundle:Partial:form.html.twig" %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        init.push(function () {
+            $('textarea').summernote({
+                height: 200,
+                tabsize: 2,
+                codemirror: {
+                    theme: 'monokai'
+                }
+            });
+        });
+    </script>
+
+{% endblock %}
+{% block titlepage %}
+    <i class="fa fa-pencil"></i>Editer un produit
+{%  endblock %}
+{# création du formaulaire label, imput et message d'erreur#}
+
+{% block content %}
+
+
+    {{ include('StoreBackendBundle:Product:_form.html.twig') }}
+
+{%  endblock %}

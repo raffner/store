@@ -1,0 +1,26 @@
+{% extends "StoreBackendBundle::layout.html.twig" %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        init.push(function () {
+            $('textarea').summernote({
+                height: 200,
+                tabsize: 2,
+                codemirror: {
+                    theme: 'monokai'
+                }
+            });
+        });
+    </script>
+
+{% endblock %}
+{% block titlepage %}
+    <i class="fa fa-pencil"></i>Edition d'un CMS
+{%  endblock %}
+{# création du formulaire label, imput et message d'erreur#}
+
+{% block content %}
+
+    {{ include('StoreBackendBundle:CMS:_form.html.twig') }}
+
+{%  endblock %}

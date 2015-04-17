@@ -33,7 +33,8 @@ class CategoryRepository extends EntityRepository{
 
     public function getCategoryByUserBuilder($user){
         /**
-         * Le formulaire atten la méthode createQueryBuilder : et non pas l'objet CreateQuery
+         * Le formulaire attend la méthode createQueryBuilder : et non pas l'objet CreateQuery
+         * le paramètre (c) est l'alias : dans cette méthode, on se dispense de la requete select from
          */
         $queryBuilder = $this->createQueryBuilder('c')
 

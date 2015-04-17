@@ -53,9 +53,9 @@ class CategoryController extends Controller {
         $category = $em->getRepository('StoreBackendBundle:Category')->find($id);
 
         $em->remove($category);
-        $em->flush;
+        $em->flush();
 
-        $this->redirectToRoute('store_backend_category_list');
+        return $this->redirectToRoute('store_backend_category_list');
 
 
     }
@@ -95,7 +95,10 @@ class CategoryController extends Controller {
             $em = $this->getDoctrine()->getManager();// je récupère le manager de doctrine
             $em->persist($category);//J'enregistre mon objet ds doctrine (l'objet est en cache à cet instant, juste avant d'être flushé)
             $em->flush();//J'envoie ma requête d'insert à ma table product.
-
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                'Votre catégorie a bien été créée!'
+            );
             return $this->redirectToRoute('store_backend_category_list'); //redirection selon la route vers la liste de mes catégories.
         }
 
@@ -104,5 +107,50 @@ class CategoryController extends Controller {
         );
     }
 
+    public function editAction(Request $request, $id){
 
+
+        $em = $this->getDoctrine()->getManager();// je récupère le manager de doctrine
+
+        //Je vais chercher un objet par son id (il ne s'agit pas en effet d'un nouveau produit mais d'un produit existant)
+        $category = $em->getRepository('StoreBackendBundle:Category')->find($id)
+        ;
+        $jeweler = $em->getRepository('StoreBackendBundle:Jeweler')->find(1);
+        $category->setJeweler($jeweler);//J'associe mon jeweller à un produit
+
+
+        //Je crée un formulaire en associant avec mon produit
+        $form = $this->createForm(new CategoryType(1), $category,
+            array(
+                'validation_groups'=> 'new',
+                'attr' => array(
+                    'method' => 'post',
+                    'novalidate' => 'novalidate',
+                    'action' => $this->generateUrl('store_backend_category_edit',
+                            array('id' => $id))
+                    //L'action de formulaire pointe vers cette meme action de formulaire
+                )
+            ));
+        //Je fusionne ma requête avec mon formulaire
+        //Le formulaire étant lié à l'entité, il connait les contraintes de l'entité et les champs associés, mais maintenant il est aussi
+        //lié à la requete (objet Request) qui est aussi chargé de données : La requete est lié au formulaire qui est lié à l'entité.
+        //Les données saisie par l'utilisateur sont fusionnés par rapport au champ du formulaire qui sont aussi les attributs en entité.
+        $form->handleRequest($request);
+        //Si la totalité du formulaire est valide
+        if($form->isValid()){
+
+            $em = $this->getDoctrine()->getManager();// je récupère le manager de doctrine
+            $em->persist($category);//J'enregistre mon objet ds doctrine (l'objet est en cache à cet instant, juste avant d'être flushé)
+            $em->flush();//J'envoie ma requête d'insert à ma table product.
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                'Votre catégorie a bien été modifiée!'
+            );
+            return $this->redirectToRoute('store_backend_category_list'); //redirection selon la route vers la liste de mes produits.
+        }
+
+        return $this->render('StoreBackendBundle:Category:edit.html.twig',
+            array('form' =>$form->createView())
+        );
+    }
 }

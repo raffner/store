@@ -20,45 +20,8 @@
 {# création du formulaire label, imput et message d'erreur#}
 
 {% block content %}
-    {#{{ form(form) }}#}
-
-    {{ form_start(form) }}
-    {#&#123;&#35;{{ créer une nouvelle balise ouvrante qui ouvre le label du champ}}&#35;&#125;#}
-    {#{{ form_label(form.ref) }}#}
-
-    {#&#123;&#35;{{ créer une nouvelle balise ouvrante qui restitue l'input du champ}}&#35;&#125;#}
-    {#{{ form_widget(form.ref) }}#}
-
-    {#{{ créer une nouvelle balise ouvrante qui donne un message d'erreur associé au champ référence}}#}
 
 
-
-    {#restitue en une seul ligbne les trois éléments label, input, message d'erreur }}#}
-    <div class="row">
-
-        <div class="col-md-4">
-            {{ form_row(form.title) }}
-        </div>
-        <div class="col-md-4">
-            {{ form_row(form.description) }}
-        </div>
-        <div class="col-md-4">
-            {{ form_row(form.position) }}
-        </div>
-    </div>
-
-    {#BOUTON ENVOYER#}
-
-    {{ form_widget(form.envoyer, {'attr':{'class': 'btn btn-lg btn-primary'}}) }}
-
-    {#BNE PAS OUBLIER TOKEN qui est une protection #}
-
-    {{ form_widget(form._token) }}
-
-    {{ form_end(form,{'render_rest':false}) }}
-
-
-
-
+    {{ include('StoreBackendBundle:Category:_form.html.twig') }}
 
 {%  endblock %}

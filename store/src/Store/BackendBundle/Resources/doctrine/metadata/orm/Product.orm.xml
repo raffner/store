@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
-  <entity name="Product" table="product">
+  <entity name="Store\BackendBundle\Entity\Product" table="product">
     <indexes>
       <index name="jeweler_id" columns="jeweler_id"/>
     </indexes>
@@ -9,6 +9,7 @@
     </id>
     <field name="ref" type="string" column="ref" length="30" nullable="true"/>
     <field name="title" type="string" column="title" length="150" nullable="true"/>
+    <field name="imagepresentation" type="string" column="imagepresentation" length="300" nullable="false"/>
     <field name="summary" type="text" column="summary" nullable="true"/>
     <field name="description" type="text" column="description" nullable="true"/>
     <field name="composition" type="text" column="composition" nullable="true"/>
