@@ -10,7 +10,11 @@ namespace Store\BackendBundle\Controller;
 use Store\BackendBundle\Entity\Product;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Store\BackendBundle\Form\ProductType;
+use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
+
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+//lié à la méthode 2 pour restreindre l'accès au contrôleur
 
 /**
  * Class ProductController
@@ -18,14 +22,25 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ProductController extends Controller {
 
+    /*
+     * Méthode 2 pour restreindre l'accès au niveau de la méthode
+     * @Security(has_role('ROLE_EDITOR'))
+     */
+
     public function listAction(){
         //récupère le manager de doctrine : le conteneur d'objets qui permet def aire des requetes côté objet
-
+        //Méthode un : restreindre l'accès au niveau de ma méthode de contrôleur (renvoie un message d'erreur)
+        //if(false === $this->get('security.context')->isGranted('ROLE_EDITOR')){
+            //throw new AccessDeniedException("Accès interdit pour ce type de contenu");
+        //}
         $em = $this->getDoctrine()->getManager();
+
+        //récupérer l'utilisateur courant connecté
+        $user = $this->getUser();
 
         //je récupère tous les produits de jeweller numéro 1
 
-        $products = $em->getRepository('StoreBackendBundle:Product')->getProductsByUser(1);
+        $products = $em->getRepository('StoreBackendBundle:Product')->getProductsByUser($user);
 
         //nom du bundle, nom de l'entité : envoi en vue
         return $this->render('StoreBackendBundle:Product:list.html.twig', array('products'=>$products
@@ -71,15 +86,46 @@ class ProductController extends Controller {
 
 
     }
+    public function activateAction(Product $id, $action){
+        // récupère le manager de la doctrine
+        $em = $this->getDoctrine()->getManager();
+        $id->setActive($action);
+        $em->persist($id);
+        $em->flush();
+        //Je crée un message flash avec pour clé "success"
+        $this->get('session')->getFlashBag()->add(
+            'success',
+        'Votre produit a bien été activé'
+        );
+        return $this->redirectToRoute('store_backend_product_list');
+
+
+    }
+    public function coverAction(Product $id, $action){
+        // récupère le manager de la doctrine
+        $em = $this->getDoctrine()->getManager();
+        $id->setCover($action);
+        $em->persist($id);
+        $em->flush();
+        //Je crée un message flash avec pour clé "success"
+        $this->get('session')->getFlashBag()->add(
+            'success',
+            'Votre produit a bien été mis en couverture'
+        );
+        return $this->redirectToRoute('store_backend_product_list');
+
+
+    }
     /*
      * Je récupère l'objet request qui récupère toutes mes données en Get ou en post
      */
     public function newAction(Request $request){
         //Je crée une nouvelle entité product : NB : USER à chaque création d'objet
         $product=new Product();
-        $em = $this->getDoctrine()->getManager();// je récupère le manager de doctrine
-        $jeweler = $em->getRepository('StoreBackendBundle:Jeweler')->find(1);
-        $product->setJeweler($jeweler);//J'associe mon jeweller à un produit
+
+        $user = $this->getUser();
+
+        $product->setJeweler($user);//J'associe mon jeweller à un produit
 
         // J'initialise la quantité et le prix de mon produit
         //NB : initialiser tous les objets de product : à faire dans le constructeur Product.php
@@ -87,7 +133,7 @@ class ProductController extends Controller {
         //$product->setPrice(0); NB : l'objet étant intialisé au niveau du constructeur, je n'ai pas besoin des seteurs
 
         //Je crée un formulaire en associant avec mon produit
-        $form = $this->createForm(new ProductType(1), $product,
+        $form = $this->createForm(new ProductType($user), $product,
                 array(
                     'attr' => array(
                             'validation_groups'=> 'new',
@@ -104,9 +150,12 @@ class ProductController extends Controller {
         $form->handleRequest($request);
            //Si la totalité du formulaire est valide
         if($form->isValid()){
+            $em = $this->getDoctrine()->getManager();// je récupère le manager de doctrine uniquement à ce moment de connexion
+            //et pas à la phase de chargment
+
             //Le fichier est ici uploadé en faisant appel à la méthode upload
             $product->upload();
-            exit(var_dump($product->getImagepresentation()));
+ +
             $em->persist($product);//J'enregistre mon objet ds doctrine (l'objet est en cache à cet instant, juste avant d'être flushé)
             $em->flush();//J'envoie ma requête d'insert à ma table product.
             // Je crée un message flash avec la clé sucess et un message de confirm

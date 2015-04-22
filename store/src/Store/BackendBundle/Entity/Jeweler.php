@@ -2,15 +2,24 @@
 
 namespace Store\BackendBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\Role\Role;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Jeweler
  *
  * @ORM\Table(name="jeweler", uniqueConstraints={@ORM\UniqueConstraint(name="email", columns={"email"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Store\BackendBundle\Repository\JewelerRepository")
+ * @UniqueEntity(fields="username", message="Votre login n'est pas correct", groups={"new"})
+ * @UniqueEntity(fields="email", message="Votre email n'est pas correct", groups={"new"})
  */
-class Jeweler
+class Jeweler implements AdvancedUserInterface, \Serializable
 {
     /**
      * @var integer
@@ -23,13 +32,36 @@ class Jeweler
 
     /**
      * @var string
+     * @Assert\NotBlank(
      *
+     *      message = "L'email ne doit pas être vide",
+     *      groups={"subscribe"}
+     * )
+     *@Assert\Length(
+     *
+     *      min = "5",
+     *      max = "50",
+     *      minMessage = "Votre email doit faire au moins {{ limit }} caractères",
+     *      maxMessage = "Votre email ne doit pas faire plus de {{ limit }} caractères",
+     *
+     * )
      * @ORM\Column(name="username", type="string", length=300, nullable=true)
      */
     private $username;
 
     /**
      * @var string
+     * @Assert\NotBlank(
+     *
+     *      message = "L'email ne doit pas être vide",
+     *      groups={"subscribe"}
+     * )
+     *@Assert\Email(
+     *
+     *      message = "'{{ value }}' n'est pas un email valide",
+     *      checkMX = true,
+     *      groups={"subscribe"}
+     * )
      *
      * @ORM\Column(name="email", type="string", length=150, nullable=true)
      */
@@ -37,7 +69,19 @@ class Jeweler
 
     /**
      * @var string
+     * @Assert\NotBlank(
      *
+     *      message = "Le mot de passe ne doit pas être vide",
+     *      groups={"subscribe"}
+     * )
+     *@Assert\length(
+     *
+     *      min = "5",
+     *      max = "30",
+     *      minMessage = "Votre password doit faire au moins {{ limit }} caractères",
+     *      maxMessage = "Votre password ne doit pas faire plus de {{ limit }} caractères",
+     *
+     * )
      * @ORM\Column(name="password", type="string", length=300, nullable=true)
      */
     private $password;
@@ -182,7 +226,20 @@ class Jeweler
      */
     private $dateCreated;
 
-
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Groups", inversedBy="jeweler")
+     * @ORM\JoinTable(name="jeweler_groups",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="jeweler_id", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="groups_id", referencedColumnName="id")
+     *   }
+     * )
+     */
+    private $groups;
 
     /**
      * Get id
@@ -724,6 +781,64 @@ class Jeweler
     }
 
     /**
+     * (PHP 5 &gt;= 5.1.0)<br/>
+     * String representation of object
+     * Les deux méthodes sont liées à security
+     * @link http://php.net/manual/en/serializable.serialize.php
+     * @return string the string representation of the object or null
+     */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+        ));
+    }
+
+    /**
+     * (PHP 5 &gt;= 5.1.0)<br/>
+     * Constructs the object
+     * @link http://php.net/manual/en/serializable.unserialize.php
+     * @param string $serialized <p>
+     * The string representation of the object.
+     * </p>
+     * @return void
+     */
+    public function unserialize($serialized)
+    {
+        list(
+            $this->id,
+            ) = unserialize($serialized);
+    }
+
+
+    public function eraseCredentials(){
+        return null;
+    }
+
+    public function isEqualTo(UserInterface $user){
+        return $this->username === $user->getUserName();
+
+    }
+    public function isAccountNonExpired()
+    {
+        return $this->accountnonexpired;
+    }
+
+    public function isAccountNonLocked()
+    {
+        return $this->accountnonlocked;    }
+
+    public function isCredentialsNonExpired()
+    {
+        return $this->credentialsExpired;
+    }
+
+    public function isEnabled()
+    {
+        return $this->enabled;
+    }
+
+    /**
      * Converti un objet en chaîne de caractère : on peut ainsi se dispenser dans la vue de l'attribut title
      * @return string
      */
@@ -731,5 +846,106 @@ class Jeweler
         return $this->title;
     }
 
+    /**
+     * Returns the roles granted to the user.
+     *
+     * <code>
+     * public function getRoles()
+     * {
+     *     return array('ROLE_USER');
+     * }
+     * </code>
+     *
+     * Alternatively, the roles might be stored on a ``roles`` property,
+     * and populated in any number of different ways when the user object
+     * is created.
+     *
+     * @return Role[] The user roles
+     */
+    public function getRoles()
+    {
+        //return array('ROLE_JEWELER');
+        //je retorune mon attribut groups en tableaux
+
+        return $this->groups->toArray();
+    }
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->dateCreated = new\DateTime('now');
+        $this->type = 1;
+        $this->enabled = 1;
+        $this->accountnonexpired = 1;
+        $this->getAccountnonlocked = 1;
+        $this->credentialsExpired = 1;
+        $this->locked = 0;
+        $this->expired = 0;
+        $this->salt = md5(uniqid(null, true));
+        $this->groups = new ArrayCollection();
+
+    }
+
+    /**
+     * Add groups
+     *
+     * @param \Store\BackendBundle\Entity\Groups $groups
+     * @return Jeweler
+     */
+    public function addGroup(\Store\BackendBundle\Entity\Groups $groups)
+    {
+        $this->groups[] = $groups;
+
+        return $this;
+    }
+
+    /**
+     * Remove groups
+     *
+     * @param \Store\BackendBundle\Entity\Groups $groups
+     */
+    public function removeGroup(\Store\BackendBundle\Entity\Groups $groups)
+    {
+        $this->groups->removeElement($groups);
+    }
+
+    /**
+     * Get groups
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getGroups()
+    {
+        return $this->groups;
+    }
+
+    /**
+     * @Assert\Callback(groups={"subscribe"})
+     * useSymfony\Component\Validator\Context\ExecutionContextInterface;
+     * Validateur qui permet de vérifier que deux chapms sont différents entre eux
+     */
+    public function validate(ExecutionContextInterface $context)
+{
+    if($this->getUsername() == $this->getPassword()){
+        $context->addViolationAt(
+            'username',
+            'Votre login ne doit pas être identique à votre mot de passe',
+            array(),
+            null
+        );
+    }
+    if($this->getUsername() == $this->getEmail()){
+        $context->addviolationAt(
+            'email',
+            'Votre email ne doit pas être identique à votre mot de login',
+            array(),
+            null
+        );
+    }
+ }
 
 }
+

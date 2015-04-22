@@ -1,0 +1,37 @@
+{#{{ form(form) }}#}
+
+    {{ form_start(form) }}
+
+<div class="row">
+
+    <div class="col-md-4">
+        {{ form_row(slider.caption) }}
+    </div>
+    <div class="col-md-4">
+        {{ form_row(slider.image) }}
+    </div>
+    <div class="col-md-4">
+        {{ form_row(slider.position) }}
+    </div>
+</div>
+<div class="row">
+
+    <div class="col-md-4">
+        {{ form_row(slider.product) }}
+    </div>
+    <div class="col-md-4">
+        {{ form_row(slider.active) }}
+    </div>
+
+</div>
+
+{#BOUTON ENVOYER#}
+
+    {{ form_widget(slider.envoyer, {'attr':{'class': 'btn btn-lg btn-primary'}}) }}
+
+{#BNE PAS OUBLIER TOKEN qui est une protection #}
+
+    {{ form_widget(form._token) }}
+
+    {{ form_end(form,{'render_rest':false}) }}
+

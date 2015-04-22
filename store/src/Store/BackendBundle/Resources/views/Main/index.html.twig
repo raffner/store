@@ -7,7 +7,7 @@
 {% block content %}
 
 
-{block javascripts %}
+{% block javascripts %}
     {{ parent() }}
     <script>
         init.push(function () {
@@ -15,7 +15,7 @@
         })
     </script>
 
-
+{% endblock %}
 
 
 

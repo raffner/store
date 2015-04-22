@@ -25,7 +25,6 @@ class CmsType extends AbstractType{
      * @param array $options
      * Méthode qui me permet de construire le formulaire
      */
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         /**

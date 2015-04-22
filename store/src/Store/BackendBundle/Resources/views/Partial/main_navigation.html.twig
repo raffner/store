@@ -22,21 +22,35 @@
 <div id="main-navbar-collapse" class="collapse navbar-collapse main-navbar-collapse">
 <div>
 <ul class="nav navbar-nav">
+
     <li class="{% if app.request.attributes.get('_route') == "store_backend_index" %} active {% endif %}">
         <a href="{{ path('store_backend_index') }}">Home</a>
     </li>
-    <li>
+    {% if is_granted('ROLE_COMMERCIAL') %}
+    <li class="{% if app.request.attributes.get('_route') == "store_backend_product_list" %} active {% endif %}">
         <a href="{{ path('store_backend_product_list') }}">Produits</a>
     </li>
-    <li>
+    {% endif %}
+    {% if is_granted('ROLE_COMMERCIAL') %}
+    <li class="{% if app.request.attributes.get('_route') == "store_backend_category_list" %} active {% endif %}">
         <a href="{{ path('store_backend_category_list') }}">Catégories</a>
     </li>
-    <li>
+    {% endif %}
+    {% if is_granted('ROLE_EDITOR') %}
+    <li class="{% if app.request.attributes.get('_route') == "store_backend_cms_list" %} active {% endif %}">
         <a href="{{ path('store_backend_cms_list') }}">CMS</a>
     </li>
-    <li>
-        <a href="{{ path('store_backend_supplier_list') }}">Fournisseurs</a>
-    </li>
+    {% endif %}
+    {% if is_granted('ROLE_COMMERCIAL') %}
+        <li class="{% if app.request.attributes.get('_route') == "store_backend_supplier_list" %} active {% endif %}">
+            <a href="{{ path('store_backend_supplier_list') }}">Fournisseurs</a>
+        </li>
+    {% endif %}
+    {% if is_granted('ROLE_COMMERCIAL') %}
+        <li class="{% if app.request.attributes.get('_route') == "store_backend_slider_list" %} active {% endif %}">
+            <a href="{{ path('store_backend_slider_list') }}">Slider</a>
+        </li>
+    {% endif %}
 
 
 </ul> <!-- / .navbar-nav -->
@@ -249,15 +263,15 @@
 
 <li class="dropdown">
     <a href="#" class="dropdown-toggle user-menu" data-toggle="dropdown">
-        <img src="assets/demo/avatars/1.jpg" alt="">
-        <span>John Doe</span>
+        <img src="{{ app.user.username }}" alt="">
+        <span>{{ app.user.username }}</span>
     </a>
     <ul class="dropdown-menu">
         <li><a href="#"><span class="label label-warning pull-right">New</span>Profile</a></li>
         <li><a href="#"><span class="badge badge-primary pull-right">New</span>Account</a></li>
         <li><a href="#"><i class="dropdown-icon fa fa-cog"></i>&nbsp;&nbsp;Settings</a></li>
         <li class="divider"></li>
-        <li><a href="pages-signin.html"><i class="dropdown-icon fa fa-power-off"></i>&nbsp;&nbsp;Log Out</a></li>
+        <li><a href="{{ path('store_backend_security_logout') }}"><i class="dropdown-icon fa fa-power-off"></i>&nbsp;&nbsp;Log Out</a></li>
     </ul>
 </li>
 </ul> <!-- / .navbar-nav -->

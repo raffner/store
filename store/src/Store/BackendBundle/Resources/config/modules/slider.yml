@@ -1,0 +1,29 @@
+#Page list of slide
+store_backend_slider_list:
+    path: /list
+    defaults: { _controller: StoreBackendBundle:Slider:list }
+
+#Page view a product
+store_backend_slider_view:
+    path: /view/{id}
+    defaults: { _controller: StoreBackendBundle:Slider:view }
+    requirements:
+      id: \d+
+      _method: GET
+
+
+store_backend_slider_remove:
+     path: /remove/{id}
+     defaults: { _controller: StoreBackendBundle:Slider:remove }
+
+store_backend_slider_new:
+      path:   /new
+      defaults: { _controller: StoreBackendBundle:Slider:new }
+
+store_backend_slider_edit:
+      path:   /edit/{id}
+      defaults: { _controller: StoreBackendBundle:Slider:edit }
+
+store_backend_slider_activate:
+      path:   /activate/{id}/{action}
+      defaults: { _controller: StoreBackendBundle:Slider:activate }

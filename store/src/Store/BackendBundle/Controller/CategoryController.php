@@ -22,9 +22,12 @@ class CategoryController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
 
-        //je récupère tous les produits de ma badse de donnée avec la méthode FindAll()
+        //récupérer l'utilisateur courant connecté (et non pas l'id en dur)
+        $user = $this->getUser();
 
-        $categories = $em->getRepository ('StoreBackendBundle:Category')->getCategoriesByUser(1);
+        //je récupère tous les produits de ma badse de donnée avec la méthode getCategoriesByUser()
+
+        $categories = $em->getRepository ('StoreBackendBundle:Category')->getCategoriesByUser($user);
 
         //nom du bundle, nom de l'entité
         return $this->render('StoreBackendBundle:Category:list.html.twig',
@@ -66,9 +69,9 @@ class CategoryController extends Controller {
     public function newAction(Request $request){
         //Je crée une nouvelle entité category : NB : USER à chaque création d'objet
         $category=new Category();
-        $em = $this->getDoctrine()->getManager();// je récupère le manager de doctrine
-        $jeweler = $em->getRepository('StoreBackendBundle:Jeweler')->find(1);
-        $category->setJeweler($jeweler);//J'associe mon jeweller à une catégorie
+        $user = $this->getUser();
+
+        $category->setJeweler($user);//J'associe mon jeweller à une catégorie
 
         // J'initialise les données de mes catégories
         //NB : initialiser tous les objets de catégorie : à faire dans le constructeur categorie.php
@@ -115,12 +118,12 @@ class CategoryController extends Controller {
         //Je vais chercher un objet par son id (il ne s'agit pas en effet d'un nouveau produit mais d'un produit existant)
         $category = $em->getRepository('StoreBackendBundle:Category')->find($id)
         ;
-        $jeweler = $em->getRepository('StoreBackendBundle:Jeweler')->find(1);
+        $jeweler = $em->getRepository('StoreBackendBundle:Jeweler')->find($user);
         $category->setJeweler($jeweler);//J'associe mon jeweller à un produit
 
 
         //Je crée un formulaire en associant avec mon produit
-        $form = $this->createForm(new CategoryType(1), $category,
+        $form = $this->createForm(new CategoryType($user), $category,
             array(
                 'validation_groups'=> 'new',
                 'attr' => array(

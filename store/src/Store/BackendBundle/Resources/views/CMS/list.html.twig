@@ -22,6 +22,7 @@
                 <th>Etat</th>
                 <th>produit</th>
                 <th>Bijoutier</th>
+                <th>Activation</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -34,7 +35,26 @@
 
                <td><a href="{{ path('store_backend_cms_view',{'id' : page.id }) }}">{{ page.title }}</a></td>
                <td><a href="">{{ page.description }}</a></td>
-               <td><a href="">{{ page.state }}</a></td>
+
+               <td>
+                   {% if page.state == 2 %}
+
+                       <a href="{{ path('store_backend_cms_state',{'id' : page.id, 'action' : 2} ) }}" class = 'btn btn-success disabled' >Lu</a>
+                       <a href="{{ path('store_backend_cms_state',{'id' : page.id, 'action' : 1} ) }}" class = 'btn btn-primary' >En cours de lecture</a>
+                       <a href="{{ path('store_backend_cms_state',{'id' : page.id, 'action' : 0} ) }}" class = 'btn btn-danger' >Non lu</a>
+
+                   {% elseif page.state == 1 %}
+                       <a href="{{ path('store_backend_cms_state',{'id' : page.id, 'action' : 2} ) }}" class = 'btn btn-success'>Lu</a>
+                       <a href="{{ path('store_backend_cms_state',{'id' : page.id, 'action' : 1} ) }}" class = 'btn btn-primary disabled' >En cours de lecture</a>
+                       <a href="{{ path('store_backend_cms_state',{'id' : page.id, 'action' : 0} ) }}" class = 'btn btn-danger' >Non lu</a>
+
+                   {% else %}
+                       <a href="{{ path('store_backend_cms_state',{'id' : page.id, 'action' : 2} ) }}" class = 'btn btn-success '>Lu</a>
+                       <a href="{{ path('store_backend_cms_state',{'id' : page.id, 'action' : 1} ) }}" class = 'btn btn-primary'>En cours de lecture</a>
+                       <a href="{{ path('store_backend_cms_state',{'id' : page.id, 'action' : 0} ) }}" class = 'btn btn-danger'disabled >Non lu</a>
+
+                   {% endif %}</td>
+               </td>
                      <td>
                          {% for product in page.product %}
                              <a href=" ">{{ product.title }}</a>
@@ -45,6 +65,16 @@
                              <a href=" ">{{ jeweler.title }}</a>
                          {% endfor %}
                      </td>
+                     <td>
+                         {% if page.active == 1 %}
+                             <a href="{{ path('store_backend_cms_activate',{'id' : page.id, 'action' : 0} ) }}">
+                                 <i class="fa fa-check"></i>
+                             </a>
+                         {% else %}
+                             <a href="{{ path('store_backend_cms_activate',{'id' : page.id, 'action' : 1} ) }}">
+                                 <i class="fa fa-times"></i>
+                             </a>
+                         {% endif %}</td>
 
                      <td>
                          <div class="btn-group">

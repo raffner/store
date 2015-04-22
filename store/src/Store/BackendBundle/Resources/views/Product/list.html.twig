@@ -15,14 +15,25 @@
 {# boucle sur mes produits : requete sur la clé qui donne un tableau
 #}
 {% for product in products %}
-
-
-        <h2><a href="{{ path('store_backend_product_view',{'name': product.title, 'id' : product.id} ) }}">{{ product.title }}</h2> <i>{{ product.dateCreated|date('d/m/Y') }}</i>
-            {% if product.active == 0 %}
-                <i class="fa fa-times"></i>
-            {% else %}
+            {% if product.active == 1 %}
+            <a href="{{ path('store_backend_product_activate',{'id' : product.id, 'action' : 0} ) }}">{{ product.title }}<i>{{ product.dateCreated|date('d/m/Y') }}</i>
                 <i class="fa fa-check"></i>
+            </a>
+            {% else %}
+             <a href="{{ path('store_backend_product_activate',{'id' : product.id, 'action' : 1} ) }}">{{ product.title }}<i>{{ product.dateCreated|date('d/m/Y') }}</i>
+                <i class="fa fa-times"></i>
+             </a>
             {% endif %}
+
+            {% if product.cover == 0 %}
+            <a href="{{ path('store_backend_product_cover',{'id' : product.id, 'action' : 1} ) }}" class="btn btn-primary btn-lg btn-rounded">
+                <i class="fa fa-star"></i>METTRE LE PRODUIT EN COUVERTURE
+            </a>
+            {% else %}
+            <a href="{{ path('store_backend_product_cover',{'id' : product.id, 'action' : 0} ) }}" class="btn btn-warning btn-lg btn-rounded">
+            <i class="fa fa-star-o"></i>RETIRER LE PRODUIT DE LA COUVERTURE
+        </a>
+    {% endif %}
          <p>{{ product.ref }}</p>
     {# affiche la liste des produits - ref, title ne renvoient pas aux champs
      de la table mais sont les attributs des produits #}<div class ="row">

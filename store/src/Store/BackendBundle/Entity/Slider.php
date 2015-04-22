@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Slider
  *
  * @ORM\Table(name="slider", indexes={@ORM\Index(name="product_id", columns={"product_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Store\BackendBundle\Repository\SliderRepository")
  */
 class Slider
 {
@@ -59,7 +59,31 @@ class Slider
      */
     private $product;
 
+    protected $file;
 
+    /**
+     * @param mixed $file
+     */
+
+
+    /**
+     * @var string
+     * @Assert\NotBlank(
+     *
+     *  message = "Le champ ne doit pas être vide",
+     *  groups={"new", "edit"}
+     * )
+     *  @Assert\Length(
+     *
+     * min = "10",
+     * minMessage = "Votre texte doit faire au moins {{ limit }} caractères",
+     * groups={"new", "edit"}
+     *
+     * )
+     *
+     *
+     * @ORM\Column(name="summary", type="text", nullable=true)
+     */
 
     /**
      * Get id

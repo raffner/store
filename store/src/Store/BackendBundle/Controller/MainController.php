@@ -1,6 +1,6 @@
 <?php
 
-//l'endroit ou je déclare là où j emets le contrôileur
+//l'endroit ou je déclare là où j e mets le contrôileur
 
 namespace Store\BackendBundle\Controller;
 
@@ -21,28 +21,33 @@ class MainController extends Controller {
         //Récupérer Doctrine Manager
         $em = $this->getDoctrine()->getManager();
 
+        $user = $this->getUser();
+
         //je récupère le nombre de produits de mon bijoutier
         //Je fais appel à mon repository ProductRepository
         //et à la fonction getCountByUser
-        $nbprod = $em->getRepository('StoreBackendBundle:Product')->getCountByUser(1);
+        $nbprod = $em->getRepository('StoreBackendBundle:Product')->getCountByUser($user);
 
-        $nbcat = $em->getRepository('StoreBackendBundle:Category')->getCountByUser(1);
+        $nbcat = $em->getRepository('StoreBackendBundle:Category')->getCountByUser($user);
 
-        $nbcms = $em->getRepository('StoreBackendBundle:Cms')->getCountByUser(1);
+        $nbcms = $em->getRepository('StoreBackendBundle:Cms')->getCountByUser($user);
 
-        $nbcom = $em->getRepository('StoreBackendBundle:Comment')->getCountByUser(1);
+        $nbcom = $em->getRepository('StoreBackendBundle:Comment')->getCountByUser($user);
 
-        $nbsup = $em->getRepository('StoreBackendBundle:Supplier')->getCountByUser(1);
+        $nbsup = $em->getRepository('StoreBackendBundle:Supplier')->getCountByUser($user);
 
-        $nbord = $em->getRepository('StoreBackendBundle:Orders')->getCountByUser(1);
+        $nbord = $em->getRepository('StoreBackendBundle:Orders')->getCountByUser($user);
 
-        $nbsum = $em->getRepository('StoreBackendBundle:Orders')->getCountOrdersByUser(1);
+        $nbsum = $em->getRepository('StoreBackendBundle:Orders')->getCountOrdersByUser($user);
 
-        $nblast = $em->getRepository('StoreBackendBundle:Orders')->getLastOrdersByUser(1);
+        $nblast = $em->getRepository('StoreBackendBundle:Orders')->getLastOrdersByUser($user);
 
-        $ctlast = $em->getRepository('StoreBackendBundle:Comment')->getLastCommentsByUser(1);
+        $ctlast = $em->getRepository('StoreBackendBundle:Comment')->getLastCommentsByUser($user);
 
-        $nbprod = $em->getRepository('StoreBackendBundle:Category')->getProductsInCategoriesByUser(1);
+        $nbprod = $em->getRepository('StoreBackendBundle:Category')->getProductsInCategoriesByUser($user);
+
+
+
 
 
 
@@ -60,7 +65,7 @@ class MainController extends Controller {
                     'nbsum'=>$nbsum,
                     'nblast'=>$nblast,
                     'ctlast'=>$ctlast,
-                    'nbprod'=>$nbprod
+
 
 
 

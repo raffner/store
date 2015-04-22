@@ -26,3 +26,11 @@ store_backend_product_new:
 store_backend_product_edit:
       path:   /edit/{id}
       defaults: { _controller: StoreBackendBundle:Product:edit }
+
+store_backend_product_activate:
+      path:   /activate/{id}/{action}
+      defaults: { _controller: StoreBackendBundle:Product:activate }
+
+store_backend_product_cover:
+      path:   /cover/{id}/{action}
+      defaults: { _controller: StoreBackendBundle:Product:cover }

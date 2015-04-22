@@ -1,7 +1,26 @@
-storebackend:
+store_backend:
     resource: "@StoreBackendBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix:   /administration
 
-app:
-    resource: "@AppBundle/Controller/"
-    type:     annotation
+###app:
+    ###resource: "@AppBundle/Controller/"
+    ###type:     annotation
+
+#login Backend qui ne doit pas etre préfixée par administration
+store_backend_security_login:
+    path: /login
+    defaults: { _controller: StoreBackendBundle:Security:login }
+
+#route de l'action de mon formulaire d'authentification
+store_backend_security_login_check:
+     path: /administration/login_check
+     defaults: { _controller: StoreBackendBundle:Security:login }
+
+#route de l'action de logout. Le logout doit être après le firewall
+store_backend_security_logout:
+    path:  /administration/logout
+
+#route de l'action subscribe.
+store_backend_security_subscribe:
+    path:  /subscribe
+    defaults: { _controller: StoreBackendBundle:Security:subscribe }

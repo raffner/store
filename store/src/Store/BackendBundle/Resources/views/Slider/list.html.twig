@@ -1,0 +1,79 @@
+{% extends "StoreBackendBundle::layout.html.twig" %}
+
+{% block titlepage %}
+    Page sliders
+{% endblock %}
+{% block content %}
+    <div class ="row">
+        <a href="{{ path('store_backend_slider_new') }}" class="btn btn-primary btn-lg btn-rounded">
+            <i class = "fa fa-plus"></i>Ajouter un slider</a>
+    </div>
+
+    <div class="table-primary">
+        <div class="table-header">
+            <div class="table-caption">
+                Sliders
+            </div>
+        </div>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Légende</th>
+                <th>Image</th>
+                <th>Produit associé</th>
+                <th>Bijoutier associé</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            {% for slider in sliders %}
+
+
+
+                {# affiche la liste des sliders - caption, id ne renvoient pas aux champs
+                 de la table mais sont les attributs des slider #}
+                <tr>
+
+
+
+
+                    <td><a href="">{{ slider.caption }}</a></td>
+                    <td><a href="">{{ slider.image }}</a></td>
+                    <td><a href="">{{ slider.product|length }}</a></td>
+
+
+
+
+                    <td>
+                        {% for jeweler in slider.product.jeweler %}
+                            <a href=" ">{{ jeweler.title }}</a>
+                        {% endfor %}
+                    </td>
+
+                    <td>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Actions <i class="fa fa-caret-down"></i></button>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ path('store_backend_slider_view',{'caption': slider.caption, 'id' : slider.id } ) }}">Voir </a></li>
+                                <li> <a href="{{ path('store_backend_slider_edit',{'id' : slider.id} ) }}">Editer</a></li>
+                                <li><a href="{{ path('store_backend_slider_remove',{'id' : slider.id} ) }}">Supprimer</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+
+{% endblock %}
+
+
+
+
+
+
