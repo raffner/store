@@ -97,8 +97,6 @@ class SliderController extends Controller {
         $user = $this->getUser();
 
 
-
-
         // J'initialise les données de mes slider
         //NB : initialiser tous les objets slider : à faire dans le constructeur Slider.php
         //$slider->setQuantity(0);
@@ -107,8 +105,10 @@ class SliderController extends Controller {
         //Je crée un formulaire en associant avec mon slider
         $form = $this->createForm(new SliderType(), $slider,
             array(
+                'validation_groups'=> 'new',
                 'attr' => array(
                     'method' => 'post',
+                    'novalidate' => 'novalidate',
                     'action' => $this->generateUrl('store_backend_slider_new')
                     //L'action de formulaire pointe vers cette meme action de formulaire
                 )
@@ -120,7 +120,7 @@ class SliderController extends Controller {
         $form->handleRequest($request);
         //Si la totalité du formulaire est valide
         if($form->isValid()){
-
+            $slider->upload();
             $em = $this->getDoctrine()->getManager();// je récupère le manager de doctrine
             $em->persist($slider);//J'enregistre mon objet ds doctrine (l'objet est en cache à cet instant, juste avant d'être flushé)
             $em->flush();//J'envoie ma requête d'insert à ma table slider
@@ -132,7 +132,7 @@ class SliderController extends Controller {
         }
 
         return $this->render('StoreBackendBundle:Slider:new.html.twig',
-            array('form' =>$form->createView())
+            array('form' =>$form->createView(), 'slider' => $slider)
         );
     }
 
@@ -144,14 +144,12 @@ class SliderController extends Controller {
         //Je vais chercher un objet par son id (il ne s'agit pas en effet d'un nouveau produit mais d'un slider existant)
         $slider= $em->getRepository('StoreBackendBundle:Slider')->find($id)
         ;
-        $jeweler = $em->getRepository('StoreBackendBundle:Jeweler')->find(1);
-        $slider->setJeweler($jeweler);//J'associe mon jeweller à un produit
 
 
         //Je crée un formulaire en associant avec mon slider
         $form = $this->createForm(new SliderType(1), $slider,
             array(
-                'validation_groups'=> 'new',
+                'validation_groups'=> 'edit',
                 'attr' => array(
                     'method' => 'post',
                     'novalidate' => 'novalidate',
@@ -179,7 +177,10 @@ class SliderController extends Controller {
         }
 
         return $this->render('StoreBackendBundle:Slider:edit.html.twig',
-            array('form' =>$form->createView())
+            array(
+                'form' =>$form->createView(),
+                'slider'=>$slider,
+            )
         );
     }
 

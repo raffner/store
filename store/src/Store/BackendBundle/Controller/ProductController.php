@@ -163,6 +163,13 @@ class ProductController extends Controller {
                 'success',
                 'Votre produit a bien été créé!'
             );
+
+            $quantity = $product->getQuantity();
+            //Utilisation du service de notification
+            if($quantity < 5){
+                $this->get('store.backend.notification')->notify('Attention, votre produit' .$product->getTitle().' est bientôt en rupture de stock');
+            }
+
             return $this->redirectToRoute('store_backend_product_list'); //redirection selon la route vers la liste de mes produits.
         }
 
@@ -206,6 +213,12 @@ class ProductController extends Controller {
             $em = $this->getDoctrine()->getManager();// je récupère le manager de doctrine
             $em->persist($product);//J'enregistre mon objet ds doctrine (l'objet est en cache à cet instant, juste avant d'être flushé)
             $em->flush();//J'envoie ma requête d'insert à ma table product.
+            //Utilisation du service de notification
+            if($product->getQuantity() < 5){
+                $this->get('store.backend.notification')->notify('Attention, votre produit' .$product->getTitle().'est bientôt en rupture de stock');
+            }
+
+
             $this->get('session')->getFlashBag()->add(
                 'success',
                 'Votre produit a bien été modifié!'

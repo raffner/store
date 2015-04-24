@@ -37,7 +37,7 @@ class SliderType extends AbstractType{
 
         $builder->add('caption', null, array(
             'label'=>'Légende de mon slider',
-            'required' =>true,
+            'required' =>false,
             'attr' => array(
                 'class' =>'form-control',
                 'placeholder' => 'Renseignez le champ légende'
@@ -46,10 +46,7 @@ class SliderType extends AbstractType{
 
         $builder->add('file', 'file', array(
             'label'=>'Image',
-            'required' =>false,
             'attr' => array(
-                'class' =>'form-control',
-                'accept' => 'image/*',
                 'capture' => 'capture'
             )
         ));
@@ -70,6 +67,14 @@ class SliderType extends AbstractType{
                 'placeholder' => 'Produit associé'
             )
         ));
+        $builder->add('active',null, array(
+            'required' =>false, //liste déroulante obligatoire
+            'label' =>'Etat du slider',
+            'attr' => array(
+                'class' =>'form-control',
+            )
+        ));
+
 
         $builder->add('envoyer', 'submit', array(
                 'attr' => array(

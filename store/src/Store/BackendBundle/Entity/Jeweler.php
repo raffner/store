@@ -224,7 +224,14 @@ class Jeweler implements AdvancedUserInterface, \Serializable
      *
      * @ORM\Column(name="date_created", type="datetime", nullable=true)
      */
+
     private $dateCreated;
+
+    /**
+     * @var
+     * @ORM\Column(name="date_auth", type="datetime", nullable=true)
+     */
+    protected $dateAuth;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -947,5 +954,27 @@ class Jeweler implements AdvancedUserInterface, \Serializable
     }
  }
 
-}
 
+    /**
+     * Set dateAuth
+     *
+     * @param \DateTime $dateAuth
+     * @return Jeweler
+     */
+    public function setDateAuth($dateAuth)
+    {
+        $this->dateAuth = $dateAuth;
+
+        return $this;
+    }
+
+    /**
+     * Get dateAuth
+     *
+     * @return \DateTime 
+     */
+    public function getDateAuth()
+    {
+        return $this->dateAuth;
+    }
+}

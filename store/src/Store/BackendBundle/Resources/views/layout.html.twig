@@ -13,6 +13,7 @@
     <script>var init = [];</script>
 
     <div id="main-wrapper">
+
         {#si l'utilisateur est connecté#}
         {#Si l'utilisateur est accessible depuis twig#}
         {% if app.user.id is defined %}
@@ -28,7 +29,14 @@
     <div id="content-wrapper">
         {#J'inclus ici ma vue de messages flash centralisés dan sle fichier partial#}
         {{ include("StoreBackendBundle:Partial:flashdatas.html.twig") }}
+               {% if app.session.get('alert')is not empty %}
 
+                    <div class="alert alert-dark alert- {{ app.session.get('alert').criticity }}">
+                        {#app.session donne accès à la session en Twig#}
+                        {#la méthode get() récupère la valeur selon une clé en session#}
+                        {{ app.session.get('alert').message }}
+                    </div>
+                {% endif %}
             <div class="page-header">
 
                 <div class="row">

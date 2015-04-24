@@ -8,6 +8,38 @@ use Doctrine\ORM\EntityRepository;
 class OrdersRepository extends EntityRepository{
 
     /**
+     * Requête qui me sort les commandes des six derniers mois
+     * SELECT COUNT(id) FROM `orders` as o WHERE o.date BETWEEN DATE_SUB(NOW(), INTERVAL 6 month) AND NOW()
+     * DATE BEGIN deviendra un dateTime
+     */
+    public function getOrderGraphByUser($user, $dateBegin){
+
+        //Compter le nombre de commandes pour un jeweler précis et pour une année et un mois précis.
+        $query = $this->getEntityManager()
+            ->createQuery(
+                "SELECT COUNT(o) AS nb, DATE_FORMAT(:dateBegin, '%Y-%m') AS d
+                      FROM StoreBackendBundle:Orders o
+                      WHERE o.jeweler = :user
+                      AND MONTH(o.dateCreated) = :month
+                      AND YEAR(o.dateCreated) = :year"
+            )
+        //setParameters permet de regrouper les arguments
+            ->setParameters(array(
+                'user'=> $user,
+                'dateBegin' => $dateBegin->format('Y-m-d'),
+                'month' => $dateBegin->format('m'),
+                'year' => $dateBegin->format('Y')
+
+            ));
+
+        return $query->getSingleResult();
+
+
+
+    }
+
+
+    /**
      * @param null $user
      * @return array
      */
@@ -79,5 +111,6 @@ class OrdersRepository extends EntityRepository{
 
         return $query->getResult();
     }
+
 
 }

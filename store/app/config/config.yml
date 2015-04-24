@@ -65,12 +65,23 @@ doctrine:
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
-        auto_mapping: true
+        entity_managers:
+          default:
+            auto_mapping: true
+            dql:
+              datetime_functions:
+                 month: Store\BackendBundle\Doctrine\Extensions\Month
+                 year: Store\BackendBundle\Doctrine\Extensions\Year
+                 date_format: Store\BackendBundle\Doctrine\Extensions\DateFormat
+
+
 
 # Swiftmailer Configuration
 swiftmailer:
-    transport: "%mailer_transport%"
-    host:      "%mailer_host%"
-    username:  "%mailer_user%"
-    password:  "%mailer_password%"
-    spool:     { type: memory }
+    transport: smtp #serveur smtp
+    encryption: ssl #connexion cryptée
+    auth_mode: login #auth via le compte
+    host:     smtp.gmail.com #adresse du serveur gmail
+    username:  raffner@gmail.com
+    password:  XXXXXXXXX #mot de passe
+

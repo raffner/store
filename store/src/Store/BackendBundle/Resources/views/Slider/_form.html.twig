@@ -4,30 +4,33 @@
 
 <div class="row">
 
-    <div class="col-md-4">
-        {{ form_row(slider.caption) }}
+    <div class="col-md-3">
+        {{ form_row(form.caption) }}
     </div>
-    <div class="col-md-4">
-        {{ form_row(slider.image) }}
+    <div class="col-md-6">
+        {{ form_row(form.file) }}
     </div>
-    <div class="col-md-4">
-        {{ form_row(slider.position) }}
+    <div class="col-md-3">
+        {{ form_row(form.position) }}
     </div>
+
 </div>
 <div class="row">
-
-    <div class="col-md-4">
-        {{ form_row(slider.product) }}
+    <div class="col-md-6">
+        <img src="{{ asset ("uploads/slider/"~slider.image) }}" alt="">
     </div>
-    <div class="col-md-4">
-        {{ form_row(slider.active) }}
+    <div class="col-md-3">
+        {{ form_row(form.product) }}
+    </div>
+    <div class="col-md-3">
+        {{ form_row(form.active) }}
     </div>
 
 </div>
 
 {#BOUTON ENVOYER#}
 
-    {{ form_widget(slider.envoyer, {'attr':{'class': 'btn btn-lg btn-primary'}}) }}
+    {{ form_widget(form.envoyer, {'attr':{'class': 'btn btn-lg btn-primary'}}) }}
 
 {#BNE PAS OUBLIER TOKEN qui est une protection #}
 

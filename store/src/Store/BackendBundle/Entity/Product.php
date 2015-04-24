@@ -945,7 +945,7 @@ class Product
      * @param \Store\BackendBundle\Entity\Cms $cms
      * @return Product
      */
-    public function addCm(\Store\BackendBundle\Entity\Cms $cms)
+    public function addCms(\Store\BackendBundle\Entity\Cms $cms)
     {
         $this->cms[] = $cms;
 
@@ -957,7 +957,7 @@ class Product
      *
      * @param \Store\BackendBundle\Entity\Cms $cms
      */
-    public function removeCm(\Store\BackendBundle\Entity\Cms $cms)
+    public function removeCms(\Store\BackendBundle\Entity\Cms $cms)
     {
         $this->cms->removeElement($cms);
     }

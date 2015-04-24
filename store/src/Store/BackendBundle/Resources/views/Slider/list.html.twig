@@ -21,7 +21,6 @@
                 <th>Légende</th>
                 <th>Image</th>
                 <th>Produit associé</th>
-                <th>Bijoutier associé</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -36,21 +35,10 @@
                  de la table mais sont les attributs des slider #}
                 <tr>
 
-
-
-
                     <td><a href="">{{ slider.caption }}</a></td>
-                    <td><a href="">{{ slider.image }}</a></td>
+                    <td><img src="{{ asset("uploads/slider/"~slider.image)}}" alt=""></td>
                     <td><a href="">{{ slider.product|length }}</a></td>
 
-
-
-
-                    <td>
-                        {% for jeweler in slider.product.jeweler %}
-                            <a href=" ">{{ jeweler.title }}</a>
-                        {% endfor %}
-                    </td>
 
                     <td>
                         <div class="btn-group">
