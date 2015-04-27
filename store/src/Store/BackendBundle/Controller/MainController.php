@@ -21,7 +21,7 @@ class MainController extends Controller {
         //$email->send(); //et récupère le service store.backend.email et exécute la méthode que l'on a créée pour envoyer un email
 
           //La méthode Notify sera exécutée avec un message de bienvenue
-        $this->get('store.backend.notification')->notify('Bienvenu sur la plateforme');
+        //$this->get('store.backend.notification')->notify('Bienvenu sur la plateforme');
 
 
         $user = $this->getUser();

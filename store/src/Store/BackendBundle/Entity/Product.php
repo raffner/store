@@ -392,7 +392,7 @@ class Product
         $this->quantity = 1;
         $this->price = 0;
         $this->dateCreated = new\dateTime('now');
-        $this->dateUpdated = new\dateTime('now');
+        $this->dateUpdated = null;
 
 
         $this->user = new \Doctrine\Common\Collections\ArrayCollection();

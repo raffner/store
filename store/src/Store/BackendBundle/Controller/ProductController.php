@@ -154,6 +154,7 @@ class ProductController extends Controller {
             //et pas à la phase de chargment
 
             //Le fichier est ici uploadé en faisant appel à la méthode upload
+            /** @var $product TYPE_NAME */
             $product->upload();
  +
             $em->persist($product);//J'enregistre mon objet ds doctrine (l'objet est en cache à cet instant, juste avant d'être flushé)
@@ -164,11 +165,15 @@ class ProductController extends Controller {
                 'Votre produit a bien été créé!'
             );
 
-            $quantity = $product->getQuantity();
-            //Utilisation du service de notification
-            if($quantity < 5){
-                $this->get('store.backend.notification')->notify('Attention, votre produit' .$product->getTitle().' est bientôt en rupture de stock');
-            }
+//            $quantity = $product->getQuantity();
+//            //Utilisation du service de notification
+//            if($quantity < 5){
+//                $this->get('store.backend.notification')->notify($product->getId(),
+//                    "La quantité de " .$product->getTitle(). "Votre stock est faible",
+//                    "product",
+//                    "warning"
+//                );
+//            }
 
             return $this->redirectToRoute('store_backend_product_list'); //redirection selon la route vers la liste de mes produits.
         }
@@ -214,23 +219,39 @@ class ProductController extends Controller {
             $em->persist($product);//J'enregistre mon objet ds doctrine (l'objet est en cache à cet instant, juste avant d'être flushé)
             $em->flush();//J'envoie ma requête d'insert à ma table product.
             //Utilisation du service de notification
-            if($product->getQuantity() < 5){
-                $this->get('store.backend.notification')->notify('Attention, votre produit' .$product->getTitle().'est bientôt en rupture de stock');
-            }
+//            if($product->getQuantity() < 5){
+//                $quantity = $product->getQuantity();
+//                //Utilisation du service de notification
+//                    $this->get('store.backend.notification')->notify($product->getId(),
+//                        "Votre produit " .$product->getTitle(). "est bientôt épuisé",
+//                        "product",
+//                        "danger"
+//                    );
+//
+//            }
 
 
             $this->get('session')->getFlashBag()->add(
                 'success',
                 'Votre produit a bien été modifié!'
             );
-            //je récupère la quantité du produit enregistré
-            $quantity = $product->getQuantity();
-            if($quantity == 1){
-                $this->get('session')->getFlashBag()->add(
-                    'warning',
-                    'Votre produit est unique!'
-                );
-            }
+//            //je récupère la quantité du produit enregistré
+//            $quantity = $product->getQuantity();
+//            if($quantity == 1){
+//                $this->get('store.backend.notification')->notify($product->getId(),
+//                    "Attention " .$product->getTitle(). "il ne vous reste plus qu'un article",
+//                    "product",
+//                    "danger"
+//                );
+//
+//
+//
+//                $this->get('session')->getFlashBag()->add(
+//                    'warning',
+//                    'Votre produit est unique!'
+//                );
+//            }
+
             return $this->redirectToRoute('store_backend_product_list'); //redirection selon la route vers la liste de mes produits.
         }
 
@@ -238,5 +259,7 @@ class ProductController extends Controller {
             array('form' =>$form->createView())
         );
     }
+
+
 }
 

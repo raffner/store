@@ -30,16 +30,27 @@ class Notification {
 
     /**
      * Méthode qui va notifier une action : on a besoin du mécanisme des actions
-     * criticity : success-danger-warning-info
+     * On veut stocker
+     * Arguments : $id : qui sera l'id de mon objet
+     * $message : qui sera le message de notre notification
+     * $nature : la nature de notre modification : success-danger-warning-info
      */
-    public function notify($message, $criticity = "success"){
-        //La fonction set va me mettre en session le message que je passe en argument avec la clé 'alert'
-        //On a ajouté un argument criticity : on va stocker dans un tableau associatif les variables
-        $this->session->set('alert', array(
+    public function notify($id, $message, $nature = "product", $criticity = "success"){
+        // 1. A l'aide de la fonction get, nous récupérons dans une variable $tabsession
+        //Le tableau de notifications par sa nature
+        //$this->session->get(nature) : permet de récupérer un info par sa clé
+        //Le 2e argument à la fonction Get permet d'initialiser un tableau vide si ma clé en session n'existe pas.
+        $tabsession = $this->session->get($nature, array());
+
+        // 2. Nous stockons dans ce tableau la notif avec un message, une criticité et une date
+        $tabsession[$id] = array(
             'message' => $message,
             'criticity' => $criticity,
-        ));
+            'date' => new \DateTime("now"),
+        );
 
+        // Nous enregistrons le tableau des notifications en session
+        $this->session->set($nature,$tabsession);
 
     }
 

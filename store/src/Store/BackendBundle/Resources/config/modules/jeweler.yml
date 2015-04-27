@@ -1,0 +1,3 @@
+store_backend_jeweler_account:
+    path:     /account
+    defaults: { _controller: StoreBackendBundle:Jeweler:account }

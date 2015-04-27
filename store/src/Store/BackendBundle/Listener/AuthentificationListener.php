@@ -8,6 +8,7 @@ namespace Store\BackendBundle\Listener;
  * Time: 10:50
  */
 use Doctrine\ORM\EntityManager;
+use Store\BackendBundle\Notification\Notification;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
@@ -28,11 +29,23 @@ class AuthentificationListener {
      * @param EntityManager $em
      * @param SecurityContextInterface $securityContext
      */
-    public function __construct(EntityManager $em,SecurityContextInterface $securityContext)
+
+    /**
+     * @var \Symfony\Component\Security\Core\SecurityContextInterface
+     */
+    protected $securityContext;
+
+    /**
+     * @var
+     */
+    protected $notification;
+
+    public function __construct(EntityManager $em,SecurityContextInterface $securityContext, Notification $notification)
     {
         //Je stocke dans deux attributs les services récupérés
         $this->em = $em;
         $this->securityContext = $securityContext;
+        $this->notification = $notification;
     }
 
     /**
@@ -46,6 +59,30 @@ class AuthentificationListener {
         $now = new \DateTime('now');
         //Récupérer l'utilisateur courant connecté depuis le contexte de sécurité
         $user = $this->securityContext->getToken()->getUser();
+        //Je récupère tous les produits via le repository ProductRepository et la méthode
+        //qui va récupérer les produits de l'utilisateur dont la quantité est inférieure à 5
+        $products = $this->em->getRepository('StoreBackendBundle:Product')->
+            getProductsQuantityIsLower($user);
+
+        foreach($products as $product){
+            if($product->getQuantity() == 1){
+                $this->notification->notify(
+                    $product->getId(),
+                    "Attention, plus qu'un seul" .$product->getTitle(). 'en stock',
+                    'product',
+                    'danger'
+
+                );
+            }else{
+                $this->notification->notify(
+                    $product->getId(),
+                    'Attention, votre produit' .$product->getTitle(). 'est bientôt en rupture de stock',
+                    'product',
+                    'warning'
+
+                );
+            }
+        }
 
         //met à jour la date de connexion de l'utilisateur et la passe à la date 'aujourd'hui'
         $user->setDateAuth($now);

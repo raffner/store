@@ -32,7 +32,7 @@ class Email {
      */
     public function __construct(\Swift_Mailer $mailer, \Twig_Environment $twig){
 
-        $this->mailer = $mailer; //Je stocke
+        $this->mailer = $mailer; //Je stocke les services dans des attributs
         $this->twig = $twig;
 
     }

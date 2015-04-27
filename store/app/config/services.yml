@@ -36,14 +36,48 @@ services:
 
        # Le nom des services injectés comme constructeurs de ma classe
        #($em = $this->get("@doctrine.orm.entity_manager")
-      arguments: ["@doctrine.orm.entity_manager", "@security.context"]
+      arguments: ["@doctrine.orm.entity_manager", "@security.context","@store.backend.notification" ]
 
       # Avec "tags", j'étends le mécanisme de "security" au niveau d el'interaction login avec un mécanisme d'écouteur
       # "Tags" permet de classifier et de greffer la classe à une famille de classe
-      # ma classe est déclarée en tant que mécanisme interne du noyau de Symfony.
-      # Avec "event", je déclare que ma classe est un écouteur
+      # ma classe est déclarée en tant que mécanisme interne du noyau de Symfony ('name').
+      # Avec "event", je déclare que ma classe est un écouteur : événement déclencheur de mon service
       # et sera greffée à un événement (ici "security.interactive_login).
-      # La méthode onAuthentificationSuccess que l'on crée est déclenchée par l'événement 'event' : la méthode doit être écrite dans la classe
+      # La méthode onAuthentificationSuccess est appelée après le déclenchement de l'event  : la méthode doit être écrite dans la classe :
       #AuthentificationListerner
       tags:
         - { name: kernel.event_listener, event: security.interactive_login, method: onAuthentificationSuccess }
+
+
+
+    # Nom du service
+    store.backend.listener.product.persist:
+
+      #Nom de la classe
+      class: Store\BackendBundle\Listener\ProductListener
+
+      #Argument du constructeur
+      # Service de notification que l'on créé juste au dessus : injection d'un service dans un nouveau service
+      # Attention, l'injection de dépendances ne peut se faire que si mon service n'est pas déjà injecté,
+      #Notamment via le tag qui est associé à mon service
+      arguments: ["@store.backend.notification"]
+
+      tags:
+       #tag va me dire que ma classe utilisera le mécanisme d'écouteur de Symfony2. Définit le comportement
+       #name : correspond au mécanisme auquel ma classe sera affectée et plus particulière au mécanisme d'écouteur de doctrine
+       #Event : sera l'événement déclencheur de mon service et + particulièrement à la modification d'un objet
+       #method : la méthode qui sera appelée après le déclenchement de mon event (méthode qui doit être écrite dans une classe)
+       #et + particulièrement la méthode appelée ds mon service : postUpdate (), événement propre à doctrine (Lifecycle)
+       #Doctrine a une liste d'événements exhaustive appelé "Lifecycle". Cela représente le cycle de vie d'un objet. Liste :
+       #preRemove
+       #postRemove
+       #prePersist : quand je crée mon objet en base de données
+       #postPersist
+       #preUpdate : quand je modifie un objet existant
+       #postUpdate
+       #postLoad
+       #loadClassMetadata
+
+        - { name: doctrine.event_listener, event: postUpdate, method: postUpdate }
+        - { name: doctrine.event_listener, event: postPersist, method: postPersist }
+        - { name: doctrine.event_listener, event: preUpdate, method: preUpdate }
