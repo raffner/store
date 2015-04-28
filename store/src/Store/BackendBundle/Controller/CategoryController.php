@@ -10,6 +10,7 @@ use Store\BackendBundle\Entity\Category;
 use Store\BackendBundle\Form\CategoryType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Class CategoryController
@@ -110,6 +111,12 @@ class CategoryController extends Controller {
         );
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @security("is_granted('', id)")
+     */
     public function editAction(Request $request, $id){
 
 

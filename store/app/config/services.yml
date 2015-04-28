@@ -10,15 +10,15 @@ parameters:
 services:
     # Nom du bundle complet, nom de la classe
     store.backend.email: #Nom du service
-      class: Store\BackendBundle\Email\Email
-      arguments: ["@mailer", "@twig"] #les deux arguments dont j'ai besoin : service Swift mailer et service Twig
+          class: Store\BackendBundle\Email\Email
+          arguments: ["@mailer", "@twig"] #les deux arguments dont j'ai besoin : service Swift mailer et service Twig
 
     #nom du service
     store.backend.notification:
-            # classe avec namespace
-            class: Store\BackendBundle\Notification\Notification
-            #les arguments du constructeur de ma classe en service
-            arguments: ["@session"]
+           # classe avec namespace
+           class: Store\BackendBundle\Notification\Notification
+           #les arguments du constructeur de ma classe en service
+           arguments: ["@session"]
 
     Store.backendBundle.twig.backend_store_extension:
             # Notre classe qui va étendre twig
@@ -30,23 +30,23 @@ services:
 
     store.backend.listener.authentification:
 
-      # Nom de la classe que je déclare en tant que service
-       #Nom du service : qui pourra être utilisé partout car il contient les services voulus en injectant les bons arguments : ex.
-      class: Store\BackendBundle\Listener\AuthentificationListener
+            # Nom de la classe que je déclare en tant que service
+            #Nom du service : qui pourra être utilisé partout car il contient les services voulus en injectant les bons arguments : ex.
+            class: Store\BackendBundle\Listener\AuthentificationListener
 
-       # Le nom des services injectés comme constructeurs de ma classe
-       #($em = $this->get("@doctrine.orm.entity_manager")
-      arguments: ["@doctrine.orm.entity_manager", "@security.context","@store.backend.notification" ]
+            # Le nom des services injectés comme constructeurs de ma classe
+            #($em = $this->get("@doctrine.orm.entity_manager")
+            arguments: ["@doctrine.orm.entity_manager", "@security.context","@store.backend.notification" ]
 
-      # Avec "tags", j'étends le mécanisme de "security" au niveau d el'interaction login avec un mécanisme d'écouteur
-      # "Tags" permet de classifier et de greffer la classe à une famille de classe
-      # ma classe est déclarée en tant que mécanisme interne du noyau de Symfony ('name').
-      # Avec "event", je déclare que ma classe est un écouteur : événement déclencheur de mon service
-      # et sera greffée à un événement (ici "security.interactive_login).
-      # La méthode onAuthentificationSuccess est appelée après le déclenchement de l'event  : la méthode doit être écrite dans la classe :
-      #AuthentificationListerner
-      tags:
-        - { name: kernel.event_listener, event: security.interactive_login, method: onAuthentificationSuccess }
+            # Avec "tags", j'étends le mécanisme de "security" au niveau d el'interaction login avec un mécanisme d'écouteur
+            # "Tags" permet de classifier et de greffer la classe à une famille de classe
+            # ma classe est déclarée en tant que mécanisme interne du noyau de Symfony ('name').
+            # Avec "event", je déclare que ma classe est un écouteur : événement déclencheur de mon service
+            # et sera greffée à un événement (ici "security.interactive_login).
+            # La méthode onAuthentificationSuccess est appelée après le déclenchement de l'event  : la méthode doit être écrite dans la classe :
+            #AuthentificationListerner
+            tags:
+                - { name: kernel.event_listener, event: security.interactive_login, method: onAuthentificationSuccess }
 
 
 
@@ -63,21 +63,32 @@ services:
       arguments: ["@store.backend.notification"]
 
       tags:
-       #tag va me dire que ma classe utilisera le mécanisme d'écouteur de Symfony2. Définit le comportement
-       #name : correspond au mécanisme auquel ma classe sera affectée et plus particulière au mécanisme d'écouteur de doctrine
-       #Event : sera l'événement déclencheur de mon service et + particulièrement à la modification d'un objet
-       #method : la méthode qui sera appelée après le déclenchement de mon event (méthode qui doit être écrite dans une classe)
-       #et + particulièrement la méthode appelée ds mon service : postUpdate (), événement propre à doctrine (Lifecycle)
-       #Doctrine a une liste d'événements exhaustive appelé "Lifecycle". Cela représente le cycle de vie d'un objet. Liste :
-       #preRemove
-       #postRemove
-       #prePersist : quand je crée mon objet en base de données
-       #postPersist
-       #preUpdate : quand je modifie un objet existant
-       #postUpdate
-       #postLoad
-       #loadClassMetadata
+      #tag va me dire que ma classe utilisera le mécanisme d'écouteur de Symfony2. Définit le comportement
+      #name : correspond au mécanisme auquel ma classe sera affectée et plus particulière au mécanisme d'écouteur de doctrine
+      #Event : sera l'événement déclencheur de mon service et + particulièrement à la modification d'un objet
+      #method : la méthode qui sera appelée après le déclenchement de mon event (méthode qui doit être écrite dans une classe)
+      #et + particulièrement la méthode appelée ds mon service : postUpdate (), événement propre à doctrine (Lifecycle)
+      #Doctrine a une liste d'événements exhaustive appelé "Lifecycle". Cela représente le cycle de vie d'un objet. Liste :
+      #preRemove
+      #postRemove
+      #prePersist : quand je crée mon objet en base de données
+      #postPersist
+      #preUpdate : quand je modifie un objet existant
+      #postUpdate
+      #postLoad
+      #loadClassMetadata
 
         - { name: doctrine.event_listener, event: postUpdate, method: postUpdate }
         - { name: doctrine.event_listener, event: postPersist, method: postPersist }
         - { name: doctrine.event_listener, event: preUpdate, method: preUpdate }
+
+     # nom de notre service
+    store.backend.voter:
+
+      # class affectée à notre service
+      class: Store\BackendBundle\Security\Authorization\Voter\OwnerVoter
+
+      # Mécanisme de sécurité au niveau des votes de la gestion des rôles
+      # Implémente notre service parmi le mécanisme de vote des autorisations de la sécurité
+      tags:
+          - { name: security.voter }

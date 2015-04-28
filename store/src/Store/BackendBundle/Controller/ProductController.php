@@ -12,7 +12,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Store\BackendBundle\Form\ProductType;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
-
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 //lié à la méthode 2 pour restreindre l'accès au contrôleur
 
@@ -182,7 +181,13 @@ class ProductController extends Controller {
             array('form' =>$form->createView())
         );
     }
-    public function editAction(Request $request, $id){
+    /*
+     * is_granted
+     * 1er argument : atribut à vide
+     * 2e argument : l'objet product est passé en arguement
+     * @security("is_granted('', id)")
+     */
+    public function editAction(Request $request, Product $id){
 
 
         $em = $this->getDoctrine()->getManager();// je récupère le manager de doctrine

@@ -12,7 +12,11 @@ storebackend_categories:
 
 storebackend_cms:
     resource: "@StoreBackendBundle/Resources/config/modules/cms.yml"
-    prefix:   /cms
+    #argument{_locale}pour traduire tout mon module cms au niveau du routing
+    #Argument spécifique au routing reconnu par le système d'internationalisation
+    prefix:   /{_locale}/cms
+    requirements:
+      _locale: en|fr|es
 
 storebackend_suppliers:
      resource: "@StoreBackendBundle/Resources/config/modules/supplier.yml"

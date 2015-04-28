@@ -1,0 +1,39 @@
+<li class="nav-icon-btn nav-icon-btn-success dropdown">
+    <a href="#orders" class="dropdown-toggle" data-toggle="dropdown">
+        <span class="label">{{ orders|length }}</span>
+        <i class="nav-icon fa fa-envelope"></i>
+        <span class="small-screen-text">Mes commandes</span>
+    </a>
+
+    <!-- COMMANDES -->
+
+    <!-- Javascript -->
+    <script>
+        init.push(function () {
+            $('#main-navbar-orders').slimScroll({ height: 250 });
+        });
+    </script>
+    <!-- / Javascript -->
+
+    <div class="dropdown-menu widget-messages-alt no-padding" style="width: 300px;">
+        <div class="messages-list" id="main-navbar-orders">
+
+            {% for order in orders %}
+                <div class="message">
+                    <img src="assets/demo/avatars/2.jpg" alt="" class="message-avatar">
+                    <a href="#" class="message-subject">{{ order.total }}</a>
+                    <div class="message-description">
+                        de<a href="#">{{ order.address }}</a>
+                        &nbsp;&nbsp;·&nbsp;&nbsp;
+                        {{ order.date|date('d/m:Y') }}
+
+                    </div>
+                </div> <!-- / .message -->
+            {% endfor %}
+
+
+        </div> <!-- / .messages-list -->
+        <a href="" class="messages-link">TOUTES LES COMMANDES</a>
+    </div> <!-- / .dropdown-menu -->
+</li>
+<!-- /3. $END_NAVBAR_ICON_BUTTONS -->

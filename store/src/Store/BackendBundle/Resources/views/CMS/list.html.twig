@@ -1,12 +1,22 @@
 {% extends "StoreBackendBundle::layout.html.twig" %}
 
 {% block titlepage %}
-    CMS
+    {#Le filtre "trans" va me chercher la traduction pour le texte pages CMS#}
+   <i class="fa fa-pencil">{{ "cms.list.title"|trans }}</i>
 {% endblock %}
+
+
 {% block content %}
+
     <div class ="row">
         <a href="{{ path('store_backend_cms_new') }}" class="btn btn-primary btn-lg btn-rounded">
             <i class = "fa fa-plus"></i>Ajouter un CMS</a>
+        <div class="btn-group pull-right">
+            <a href="{{ path('store_backend_cms_list',{'_locale':'en'}) }}"
+               class="btn btn-primary btn-outline {% if app.request.get('_locale') == 'en' %} active {% endif %}"> Anglais </a>
+            <a href="{{ path('store_backend_cms_list',{'_locale':'fr'}) }}"
+               class="btn btn-primary btn-outline {% if app.request.get('_locale') == 'fr' %} active {% endif %}"> Français </a>
+        </div>
     </div>
     <div class="table-primary">
         <div class="table-header">
@@ -14,16 +24,21 @@
                 CMS
             </div>
         </div>
+        <div class=""alert alert-info-dark>
+            {#Le filtre transchoice permet de choisir la traduction en fonction du nombre que je lui donne#}
+            {{  "cms.list.nb"|transchoice(pages|length) }}
+        </div>
+        {% if pages is not empty %}
         <table class="table table-bordered">
             <thead>
             <tr>
-                <th>Nom</th>
-                <th>vue</th>
-                <th>Etat</th>
-                <th>produit</th>
-                <th>Bijoutier</th>
-                <th>Activation</th>
-                <th>Actions</th>
+                <th>{{ "cms.list.table.th.title"|trans }}</th>
+                <th>{{ "cms.list.table.th.view"|trans }}</th>
+                <th>{{ "cms.list.table.th.state"|trans }}</th>
+                <th>{{ "cms.list.table.th.product"|trans }}</th>
+                <th>{{ "cms.list.table.th.jeweler"|trans }}</th>
+                <th>{{ "cms.list.table.th.activate"|trans }}</th>
+                <th>{{ "cms.list.table.th.actions"|trans }}</th>
             </tr>
             </thead>
 
@@ -53,7 +68,7 @@
                        <a href="{{ path('store_backend_cms_state',{'id' : page.id, 'action' : 1} ) }}" class = 'btn btn-primary'>En cours de lecture</a>
                        <a href="{{ path('store_backend_cms_state',{'id' : page.id, 'action' : 0} ) }}" class = 'btn btn-danger'disabled >Non lu</a>
 
-                   {% endif %}</td>
+                   {% endif %}
                </td>
                      <td>
                          {% for product in page.product %}
@@ -91,6 +106,7 @@
 
                 </tr>
             {% endfor %}
+            {% endif %}
 
             </tbody>
         </table>
