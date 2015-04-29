@@ -1,14 +1,2 @@
-cms:
-  list:
-    title: Page des CMS
-    nb: 'Il y a %count% pages trouvées |Il y a %count% pages trouvées'
-    table:
-      th:
-        title: Titre de mon produit
-        view: Description de mon produit
-        state: Etat de mon produit
-        product: Produit
-        jeweler: Bijoutier
-        activate: Activé
-        actions: Actions
-
+list:
+    choice: Choisissez votre langue %username%

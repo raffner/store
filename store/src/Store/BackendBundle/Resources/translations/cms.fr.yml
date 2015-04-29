@@ -1,0 +1,30 @@
+cms:
+  form:
+    placeholder:
+      title: Entrez texte
+      summary: Entrez un résumé
+      description: Entrez une description
+      image: Entrez une url valide
+    title: Titre
+    summary: Sommaire
+    description: Description
+    image: Image de mon CMS
+  flashdatas:
+    activate: Votre cms a été activé
+  list:
+    title: Page des CMS
+    nb: 'Il y a %count% pages trouvées |Il y a %count% pages trouvées'
+    table:
+      th:
+        title: Titre de mon produit
+        view: Description de mon produit
+        state: Etat de mon produit
+        product: Produit
+        jeweler: Bijoutier
+        activate: Activé
+        actions: Actions
+      td:
+        view: Voir
+        edit: Editer
+        remove: Supprimer
+

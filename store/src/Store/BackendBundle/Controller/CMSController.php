@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class CMSController extends Controller {
 
-    public function listAction(){
+    public function listAction(Request $request){
         //récupère le manager de doctrine : le conteneur d'objets
 
         $em = $this->getDoctrine()->getManager();
@@ -27,10 +27,20 @@ class CMSController extends Controller {
         //je récupère tous les produits de ma badse de donnée avec la méthode FindAll()
 
         $pages = $em->getRepository ('StoreBackendBundle:Cms')->getCMSByUser($user);
+        //Paginer mes produits :
+        //Je récupère le bundle Paginator qui me sert à paginer
+        $paginator  = $this->get('knp_paginator');
+        // J'utilise la méthode paginate du service knp paginator
+        $pagination = $paginator->paginate(
+            $pages,//Je lui envoie ma collection de CMS
+            $request->query->get('page', 1)/*page number*/,
+            //Récupère le numéro de page sur lequel je me trouve. Par défaut, il prendra la page n° 1
+            5/*Je limite à 5 mon résultat de sortie : 5 cms par pages*/
+        );
         //nom du bundle, nom de l'entité
             return $this->render('StoreBackendBundle:CMS:list.html.twig',
                 array(
-                    'pages'=> $pages
+                    'pages'=> $pagination
                 ));
     }
 
@@ -75,7 +85,9 @@ class CMSController extends Controller {
         //Je crée un message flash avec pour clé "success"
         $this->get('session')->getFlashBag()->add(
             'success',
-            'Votre page a bien été modifiée'
+            //'Votre page a bien été modifiée'
+            //j'ai remplacé mon message au niveau d el'activation de mes pages
+            $this->get('translator')->trans('cms.flashdatas.activate', array(),'cms')
         );
         return $this->redirectToRoute('store_backend_cms_list');
 

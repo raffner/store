@@ -12,6 +12,9 @@
     </div>
 
     <h1>liste des produits</h1>
+    <div class="navigation">{# ici la vue liée au bundle knp : voir CmsController #}
+        {{ products.getTotalItemCount }} produits trouvés{#Cette ligne me compte la liste de mes produits#}
+    </div>
 {# boucle sur mes produits : requete sur la clé qui donne un tableau
 #}
 {% for product in products %}
@@ -72,5 +75,7 @@
 {% else  %} {# si aucun produit #}
     <div class = "alert alert-dark"></div>
 {% endfor %}
-
+    <div class="navigation">{# ici la vue liée au bundle knp : voir ProductController #}
+        {{ knp_pagination_render(products) }}
+    </div>
 {% endblock %}

@@ -1,0 +1,20 @@
+cms:
+  form:
+    validation:
+      title:
+        notblank: Your title don't have to be empty
+        length:
+          min: Your title must have at least{{ limit }} characters
+          max: Your title must not exced {{ limit }} characters
+      summary:
+        notblank: Your summarydon't have to be empty
+        length:
+          min: Your title must have at least{{ limit }} characters
+          max: Your title must not exced {{ limit }} characters
+      description:
+        notblank: Your description don't have to be empty
+        length:
+          min: Your description must have at least{{ limit }} characters
+          max: Your description must not exced {{ limit }} characters
+      image:
+        url: Your url must be valid

@@ -89,3 +89,13 @@ swiftmailer:
     username:  raffner@gmail.com
     password:  XXXXXXXXX #mot de passe
 
+knp_paginator:
+    page_range: 5                      # default page range used in pagination control: nb d'éléments que je veux ds une page
+    default_options:
+        page_name: page                # page query parameter name : le nom du paramètre mis en url : page=1... page=2, etc. (le nom en GET (en argument) qui va figurer ds mon url)
+        sort_field_name: sort          # sort field query parameter name : nom du paramètre en url pour la fonction tri
+        sort_direction_name: direction # sort direction query parameter name : nom du paramètre en url pour la direction du tri (asc ou desc)
+        distinct: true                 # ensure distinct results, useful when ORM queries are using GROUP BY statements : paramètre pour avoir des résultats distincts en termes de pagination (//avec la requête sql DISTINCT qui supprime les doublons
+    template:
+        pagination: StoreBackendBundle:Partial:sliding.html.twig     # sliding pagination controls template : précise le template de pagination (le restituer ds une vue partielle par ex et le modéliser avec Bootstrap
+        sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig # sort link template: template de tri

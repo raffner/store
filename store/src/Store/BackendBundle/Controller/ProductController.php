@@ -26,7 +26,7 @@ class ProductController extends Controller {
      * @Security(has_role('ROLE_EDITOR'))
      */
 
-    public function listAction(){
+    public function listAction(Request $request){
         //récupère le manager de doctrine : le conteneur d'objets qui permet def aire des requetes côté objet
         //Méthode un : restreindre l'accès au niveau de ma méthode de contrôleur (renvoie un message d'erreur)
         //if(false === $this->get('security.context')->isGranted('ROLE_EDITOR')){
@@ -40,9 +40,19 @@ class ProductController extends Controller {
         //je récupère tous les produits de jeweller numéro 1
 
         $products = $em->getRepository('StoreBackendBundle:Product')->getProductsByUser($user);
+        //Paginer mes produits :
+        //Je récupère le bundle Paginator qui me sert à paginer
+        $paginator  = $this->get('knp_paginator');
+        // J'utilise la méthode paginate du service knp paginator
+        $pagination = $paginator->paginate(
+            $products,//Je lui envoie ma collection de produits à paginer
+            $request->query->get('page', 1)/*page number*/,
+            //Récupère le numéro de page sur lequel je me trouve. Par défaut, il prendra la page n° 1
+            5/*Je limite à 5 mon résultat de sortie : 5 produits par pages*/
+        );
 
         //nom du bundle, nom de l'entité : envoi en vue
-        return $this->render('StoreBackendBundle:Product:list.html.twig', array('products'=>$products
+        return $this->render('StoreBackendBundle:Product:list.html.twig', array('products'=>$pagination//avec$pagination(et non plus$product), j'envoie mes produits paginés
         ));
     }
 

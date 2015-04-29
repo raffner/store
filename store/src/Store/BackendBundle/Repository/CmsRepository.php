@@ -22,7 +22,9 @@ class CmsRepository extends EntityRepository{
 //            )
          $query = $this->getCmsByUserBuilder($user)->getQuery();
 
-        return $query->getResult();
+        //return $query->getResult();: pour utiliser la fonction de tri du bundle knp, je dois non pas envoyer le résultat
+        //mais la requête en elle-meme qui devient donc return $query;
+        return $query;
 
 
 

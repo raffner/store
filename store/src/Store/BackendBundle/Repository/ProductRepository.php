@@ -20,7 +20,7 @@ class ProductRepository extends EntityRepository{
           )
           ->setParameter("user", $user);
 
-      return $query->getResult();
+        return $query->getResult();
 
 
     }

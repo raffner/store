@@ -1,0 +1,31 @@
+#Je vais pouvoir traduire mes textes de vues et mes textes de contrôleur
+cms:
+  form:
+    placeholder:
+      title: Enter a texte
+      summary: Enter a summary
+      description: Enter a description
+      image: Enter a valid url
+    title: Title
+    summary: Summary
+    description: Description
+    image: Picture of my CMS
+  flashdatas:
+    activate: Your CMS has been activated
+  list:
+    title: CMS Pages
+    nb: 'There is %count% page founded |There are %count% pages founded'
+    table:
+      th:
+        title: Description of my Product
+        view: view of my Product
+        state: State of my Product
+        product: Product
+        jeweler: Jeweler
+        activate: Activate
+        actions: Actions
+      td:
+         view: view
+         edit: Edit
+         remove: Delete
+

@@ -36,41 +36,41 @@ class CmsType extends AbstractType{
 
 
         $builder->add('title', null, array(
-            'label'=>'Nom de mon CMS',
+            'label'=>'cms.form.title',//label de mon champ
             'required' => false,
             'attr' => array(
                 'class' =>'form-control',
-                'placeholder' => 'Saisir un nom',
+                'placeholder' => 'cms.form.placeholder.title',
                 'pattern' => '[a-zA-Z0-9- ]{5,}'
 
             )
         ));
         $builder->add('summary', null, array(
-            'label'=>'Résumé de mon CMS',
+            'label'=>'cms.form.summary',
             'required' => false,
             'attr' => array(
                 'class' =>'form-control',
-                'placeholder' => 'résumé',
+                'placeholder' => 'cms.form.placeholder.summary',
 
 
             )
         ));
 
         $builder->add('description', null, array(
-            'label'=>'Descriptif',
+            'label'=>'cms.form.description',
             'required' => false,
             'attr' => array(
                 'class' =>'form-control',
-                'placeholder' => 'description du CMS',
+                'placeholder' => 'cms.form.placeholder.description',
 
             )
         ));
         $builder->add('image', null, array(
-            'label'=>'photo de mon produit',
+            'label'=>'cms.form.image',
             'required' => false,
             'attr' => array(
                 'class' =>'form-control',
-                'placeholder' => 'Photo de la page',
+                'placeholder' => 'cms.form.placeholder.image',
             )
 
             ));
@@ -123,6 +123,7 @@ class CmsType extends AbstractType{
          */
         $resolver->setDefaults([
             'data_class'=>'Store\BackendBundle\Entity\Cms',
+            'translation_domain' => 'cms'
 
         ]);
     }

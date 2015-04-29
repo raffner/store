@@ -1,5 +1,7 @@
 {% extends "StoreBackendBundle::layout.html.twig" %}
 
+{% trans_default_domain "cms" %}
+
 {% block titlepage %}
     {#Le filtre "trans" va me chercher la traduction pour le texte pages CMS#}
    <i class="fa fa-pencil">{{ "cms.list.title"|trans }}</i>
@@ -12,6 +14,8 @@
         <a href="{{ path('store_backend_cms_new') }}" class="btn btn-primary btn-lg btn-rounded">
             <i class = "fa fa-plus"></i>Ajouter un CMS</a>
         <div class="btn-group pull-right">
+            {#J'utilise ici une variable user.name que j'envoie à la vue : choisissez votre langue. #}
+            <p>{{ 'list.choice'|trans({'%username%':app.user.username}, "messages")}}</p>
             <a href="{{ path('store_backend_cms_list',{'_locale':'en'}) }}"
                class="btn btn-primary btn-outline {% if app.request.get('_locale') == 'en' %} active {% endif %}"> Anglais </a>
             <a href="{{ path('store_backend_cms_list',{'_locale':'fr'}) }}"
@@ -32,13 +36,13 @@
         <table class="table table-bordered">
             <thead>
             <tr>
-                <th>{{ "cms.list.table.th.title"|trans }}</th>
-                <th>{{ "cms.list.table.th.view"|trans }}</th>
-                <th>{{ "cms.list.table.th.state"|trans }}</th>
-                <th>{{ "cms.list.table.th.product"|trans }}</th>
-                <th>{{ "cms.list.table.th.jeweler"|trans }}</th>
-                <th>{{ "cms.list.table.th.activate"|trans }}</th>
-                <th>{{ "cms.list.table.th.actions"|trans }}</th>
+                <th>{{ knp_pagination_sortable(pages,"cms.list.table.th.title"|trans,'cms.id'|raw) }}</th>
+                <th>{{ knp_pagination_sortable(pages,"cms.list.table.th.view"|trans,'cms.id'|raw) }}</th>
+                <th>{{ knp_pagination_sortable(pages,"cms.list.table.th.state"|trans,'cms.id'|raw) }}</th>
+                <th>{{ knp_pagination_sortable(pages,"cms.list.table.th.product"|trans,'cms.id'|raw) }}</th>
+                <th>{{ knp_pagination_sortable(pages,"cms.list.table.th.jeweler"|trans,'cms.id'|raw) }}</th>
+                <th>{{ knp_pagination_sortable(pages,"cms.list.table.th.activate"|trans,'cms.id'|raw) }}</th>
+                <th>{{ knp_pagination_sortable(pages,"cms.list.table.th.actions"|trans,'cms.id'|raw) }}</th>
             </tr>
             </thead>
 
@@ -95,9 +99,9 @@
                          <div class="btn-group">
                              <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Actions <i class="fa fa-caret-down"></i></button>
                              <ul class="dropdown-menu">
-                                 <li><a href="{{ path('store_backend_cms_view',{'id' : page.id } ) }}">Voir </a></li>
-                                 <li> <a href="{{ path('store_backend_cms_edit',{'id' : page.id} ) }}">Editer</a></li>
-                                 <li><a href="{{ path('store_backend_cms_remove',{'id' : page.id} ) }}">Supprimer</a></li>
+                                 <li><a href="{{ path('store_backend_cms_view',{'id' : page.id } ) }}">{{ "cms.list.table.td.view"|trans }} </a></li>
+                                 <li> <a href="{{ path('store_backend_cms_edit',{'id' : page.id} ) }}">{{ "cms.list.table.td.edit"|trans }}</a></li>
+                                 <li><a href="{{ path('store_backend_cms_remove',{'id' : page.id} ) }}">{{ "cms.list.table.td.remove"|trans }}</a></li>
                              </ul>
                          </div>
                      </td>
@@ -113,7 +117,9 @@
 
     </div>
 
-
+    <div class="navigation">{# ici la vue liée au bundle knp : voir CmsController #}
+        {{ knp_pagination_render(pages) }}
+    </div>
 {% endblock %}
 
 
